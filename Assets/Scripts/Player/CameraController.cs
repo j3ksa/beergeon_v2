@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 public class CameraController : MonoBehaviour
 {
     [Header("Look Settings")]
-    [SerializeField] private float mouseSensitivity = 100f;
+    [SerializeField] private float mouseSensitivity = 50f;
     [SerializeField] private Transform playerBody;
 
     [Header("Input References")]

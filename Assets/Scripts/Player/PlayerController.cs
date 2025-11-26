@@ -60,4 +60,33 @@ public class PlayerController : MonoBehaviour
 
         controller.Move((move * moveSpeed + Vector3.up * velocity.y) * Time.deltaTime);
     }
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        // Handle ICollidable interactions
+        ICollidable collidable = hit.gameObject.GetComponent<ICollidable>();
+        if (collidable != null)
+        {
+            collidable.OnCollide(gameObject);
+        }
+
+        // Basic Rigidbody pushing
+        Rigidbody body = hit.collider.attachedRigidbody;
+        if (body == null || body.isKinematic) return;
+
+        // Don't push objects below us
+        if (hit.moveDirection.y < -0.3f) return;
+
+        Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
+        body.linearVelocity = pushDir * moveSpeed; // Simple push based on move speed
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        ITriggerable triggerable = other.GetComponent<ITriggerable>();
+        if (triggerable != null)
+        {
+            triggerable.OnTrigger(gameObject);
+        }
+    }
 }
