@@ -268,6 +268,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
   maxHealth: 100
   currentHealth: 100
+  decayRate: 1
+  isDecaying: 1
   OnHealthChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -563,7 +565,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cc8ff099a5194044af9363b813ef471, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseSensitivity: 100
+  mouseSensitivity: 50
   playerBody: {fileID: 21973715}
   lookAction: {fileID: -5630151704836100654, guid: 052faaac586de48259a63d0c4782560b, type: 3}
 --- !u!1 &410087039

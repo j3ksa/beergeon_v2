@@ -6,6 +6,10 @@ public class PlayerHealth : MonoBehaviour
     [Header("Health Settings")]
     [SerializeField] private int maxHealth = 100;
     [SerializeField] private int currentHealth;
+    [SerializeField] private float decayRate = 1f; // Health lost per second
+    [SerializeField] private bool isDecaying = true;
+
+    private float healthDecayAccumulator;
 
     [Header("Events")]
     public UnityEvent<float> OnHealthChanged;
@@ -16,6 +20,21 @@ public class PlayerHealth : MonoBehaviour
         if (currentHealth <= 0)
         {
             currentHealth = maxHealth;
+        }
+    }
+
+    private void Update()
+    {
+        if (isDecaying && currentHealth > 0)
+        {
+            healthDecayAccumulator += decayRate * Time.deltaTime;
+
+            if (healthDecayAccumulator >= 1f)
+            {
+                int damageToTake = Mathf.FloorToInt(healthDecayAccumulator);
+                TakeDamage(damageToTake);
+                healthDecayAccumulator -= damageToTake;
+            }
         }
     }
 
