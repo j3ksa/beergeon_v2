@@ -15,11 +15,43 @@ public class PlayerHealth : MonoBehaviour
     public UnityEvent<float> OnHealthChanged;
     public UnityEvent OnDeath;
 
+    [SerializeField] private PlayerStats playerStats;
+
     private void Awake()
     {
+        if (playerStats == null)
+        {
+            playerStats = GetComponent<PlayerStats>();
+        }
+
+        if (playerStats != null)
+        {
+            maxHealth = playerStats.GetMaxHealth();
+            // Listen for stats changes to update max health
+            playerStats.OnStatsChanged.AddListener(UpdateMaxHealth);
+        }
+
         if (currentHealth <= 0)
         {
             currentHealth = maxHealth;
+        }
+    }
+
+    private void UpdateMaxHealth()
+    {
+        if (playerStats != null)
+        {
+            int oldMax = maxHealth;
+            maxHealth = playerStats.GetMaxHealth();
+            
+            // Adjust current health proportionally or just clamp? 
+            // Let's increase current health by the difference if max increased
+            if (maxHealth > oldMax)
+            {
+                currentHealth += (maxHealth - oldMax);
+            }
+            
+            OnHealthChanged?.Invoke((float)currentHealth / maxHealth);
         }
     }
 
