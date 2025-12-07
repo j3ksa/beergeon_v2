@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 18ff96e33f1dcc14f987e0955e485fc7, type: 3}
-  m_Name: TestItem
+  m_Name: TestItem 1
   m_EditorClassIdentifier: Assembly-CSharp::Item
-  itemName: New Item
-  icon: {fileID: 21300000, guid: 6fa47f245170e964683370525f6fc48c, type: 3}
+  itemName: Vodka
+  icon: {fileID: 21300000, guid: 3db33da2b418d5743bf15c580a5bff20, type: 3}
   description: Item description
