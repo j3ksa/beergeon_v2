@@ -2,12 +2,14 @@ using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
 public class EnemyController : MonoBehaviour
+
 {
     [Header("Settings")]
     [SerializeField] private float moveSpeed = 3f;
     [SerializeField] private float detectionRange = 10f;
     [SerializeField] private float attackRange = 1.5f;
     [SerializeField] private int damage = 10;
+    [SerializeField] private float attackAnimDuration = 1.0f; // Duration of 'atack' animation
     
     [Header("References")]
     [SerializeField] private Transform target;
@@ -17,6 +19,7 @@ public class EnemyController : MonoBehaviour
     private CharacterController characterController;
     private float gravity = -9.81f;
     private Vector3 velocity;
+    private bool isAttacking = false;
 
     private void Awake()
     {
@@ -38,13 +41,6 @@ public class EnemyController : MonoBehaviour
                 target = player.transform;
             }
         }
-        
-        // Ensure walk animation plays by default if using the Hmielnik controller
-        if (animator != null)
-        {
-             // The default state in the controller is already Walk, so no action needed usually.
-             // But valid to check if it's playing.
-        }
     }
 
     private void Update()
@@ -62,49 +58,75 @@ public class EnemyController : MonoBehaviour
 
         Vector3 moveDirection = Vector3.zero;
 
-        if (distanceToTarget <= detectionRange)
+        if (distanceToTarget <= detectionRange && !isAttacking)
         {
             if (distanceToTarget > attackRange)
             {
                 // Move towards player
-                // We keep y = 0 to avoid tilting or moving up/down excessively in calculation
                 Vector3 direction = (target.position - transform.position).normalized;
                 direction.y = 0; 
                 
                 moveDirection = direction * moveSpeed;
-                
-                // Animation
-                if (animator != null)
-                {
-                    // Assuming "HmielnikWalk" is the state name or trigger. 
-                    // Based on the controller file, it seems like a default state or needs parameters?
-                    // The provided controller has 'HmielnikWalk' as default state.
-                    // If we need to toggle walk/idle, we might need a parameter.
-                    // For now, if moving, it just plays the default walk animation.
-                }
             }
             else
             {
-                // Attack logic placeholder
                 Attack();
             }
         }
 
         // Apply movement
         characterController.Move((moveDirection + Vector3.up * velocity.y) * Time.deltaTime);
+
+        // Animation Logic
+        HandleAnimations(moveDirection);
+    }
+
+    private void HandleAnimations(Vector3 moveDirection)
+    {
+        if (animator == null) return;
+
+        if (isAttacking)
+        {
+            // Animation logic for attacking is handled in Attack() and ResetAttack()
+            return;
+        }
+
+        // Check if moving (ignoring vertical movement due to gravity)
+        bool isMoving = moveDirection.magnitude > 0.1f;
+
+        if (isMoving)
+        {
+            // Walking
+            // Play "HmielnikWalk" if not already playing or if it was paused
+            AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+            if (!stateInfo.IsName("HmielnikWalk") || animator.speed == 0)
+            {
+                animator.Play("HmielnikWalk");
+                animator.speed = 1f;
+            }
+        }
+        else
+        {
+            // Idle (Simulated using paused Walk frame 0)
+            // Only force this if we are not already in this "state" to avoid jitter
+            if (animator.speed != 0)
+            {
+                animator.Play("HmielnikWalk", 0, 0f);
+                animator.speed = 0f;
+            }
+        }
     }
 
     private float lastAttackTime;
-    [SerializeField] private float attackCooldown = 1.0f;
+    [SerializeField] private float attackCooldown = 1.5f; // Increased slightly to match anim duration + buffer
 
     private void Attack()
     {
         if (Time.time >= lastAttackTime + attackCooldown)
         {
             lastAttackTime = Time.time;
-            Debug.Log("Enemy Attacks!");
             
-            // Try to damage player
+            // Damage Logic
             IDamageable damageable = target.GetComponent<IDamageable>();
             if (damageable != null)
             {
@@ -112,7 +134,6 @@ public class EnemyController : MonoBehaviour
             }
             else
             {
-                // Fallback for PlayerHealth if it doesn't implement IDamageable directly yet (it assumes direct method call in some games)
                 PlayerHealth playerHealth = target.GetComponent<PlayerHealth>();
                 if (playerHealth != null)
                 {
@@ -120,11 +141,21 @@ public class EnemyController : MonoBehaviour
                 }
             }
             
-            // Trigger attack animation if available
-             if (animator != null)
+            // Animation Logic
+            if (animator != null)
             {
-                animator.Play("atack", 0, 0f); // Using "atack" state from the provided controller file content
+                isAttacking = true;
+                animator.Play("atack", 0, 0f);
+                animator.speed = 1f;
+                StartCoroutine(ResetAttackAfterDelay(attackAnimDuration));
             }
         }
+    }
+
+    private System.Collections.IEnumerator ResetAttackAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        isAttacking = false;
+        // The Update loop will pick up next frame and switch to Walk/Idle
     }
 }
