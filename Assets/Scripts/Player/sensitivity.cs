@@ -1,11 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro; // NOWE: Biblioteka do obs≥ugi tekstÛw TextMeshPro
+using TMPro; // NOWE: Biblioteka do obs≈Çugi tekst√≥w TextMeshPro
 
 public class Sensitivity : MonoBehaviour
 {
     public Slider slider;
-    public TextMeshProUGUI valueText; // NOWE: Tu przeciπgniesz swÛj napis z hierarchii
+    public TextMeshProUGUI valueText; // NOWE: Tu przeciƒÖgniesz sw√≥j napis z hierarchii
     public float defaultSensitivity = 50f;
 
     private float tempSensitivity;
@@ -26,12 +26,12 @@ public class Sensitivity : MonoBehaviour
         UpdateText(value); // NOWE: Aktualizacja tekstu przy ruchu suwakiem
     }
 
-    // NOWE: Pomocnicza funkcja do odúwieøania napisu
+    // NOWE: Pomocnicza funkcja do od≈õwie≈ºania napisu
     private void UpdateText(float value)
     {
         if (valueText != null)
         {
-            // "F0" oznacza brak miejsc po przecinku. Jeúli chcesz np. 50.5, zmieÒ na "F1"
+            // "F0" oznacza brak miejsc po przecinku. Je≈õli chcesz np. 50.5, zmie≈Ñ na "F1"
             valueText.text = value.ToString("F0");
         }
     }
@@ -48,7 +48,7 @@ public class Sensitivity : MonoBehaviour
         PlayerPrefs.SetFloat("MouseSensitivity", tempSensitivity);
         PlayerPrefs.Save();
 
-        CameraController cam = FindObjectOfType<CameraController>();
+        CameraController cam = FindFirstObjectByType<CameraController>();
         if (cam != null)
         {
             cam.MouseSensitivity = tempSensitivity;

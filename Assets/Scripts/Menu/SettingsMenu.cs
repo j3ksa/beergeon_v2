@@ -54,21 +54,21 @@ public class SettingsMenu : MonoBehaviour
         if (gammaSlider != null) gammaSlider.minValue = -0.3f;
         if (contrastSlider != null) contrastSlider.minValue = -9.9f;
 
-        if (resolutionDropdown == null) resolutionDropdown = FindObjectsOfType<TMP_Dropdown>(true).FirstOrDefault(d => d.name.Contains("Resolution"));
-        if (fullscreenDropdown == null) fullscreenDropdown = FindObjectsOfType<TMP_Dropdown>(true).FirstOrDefault(d => d.name.Contains("Screen") || d.name.Contains("Mode")); // "Screen Mode" or "Fullscreen Mode"
+        if (resolutionDropdown == null) resolutionDropdown = FindObjectsByType<TMP_Dropdown>(FindObjectsInactive.Include, FindObjectsSortMode.None).FirstOrDefault(d => d.name.Contains("Resolution"));
+        if (fullscreenDropdown == null) fullscreenDropdown = FindObjectsByType<TMP_Dropdown>(FindObjectsInactive.Include, FindObjectsSortMode.None).FirstOrDefault(d => d.name.Contains("Screen") || d.name.Contains("Mode")); // "Screen Mode" or "Fullscreen Mode"
 
         if (qualityValueText == null) qualityValueText = FindTextByName("Quality");
         if (gammaValueText == null) gammaValueText = FindTextByName("Gamma");
         if (contrastValueText == null) contrastValueText = FindTextByName("Contrast");
 
-        Button applyButton = FindObjectsOfType<Button>(true).FirstOrDefault(b => b.name.Contains("Apply") || b.name.Contains("Zastosuj"));
+        Button applyButton = FindObjectsByType<Button>(FindObjectsInactive.Include, FindObjectsSortMode.None).FirstOrDefault(b => b.name.Contains("Apply") || b.name.Contains("Zastosuj"));
         if (applyButton != null) { applyButton.onClick.RemoveAllListeners(); applyButton.onClick.AddListener(ApplyGraphics); }
 
-        Button defaultButton = FindObjectsOfType<Button>(true).FirstOrDefault(b => b.name.Contains("Default") || b.name.Contains("Reset"));
+        Button defaultButton = FindObjectsByType<Button>(FindObjectsInactive.Include, FindObjectsSortMode.None).FirstOrDefault(b => b.name.Contains("Default") || b.name.Contains("Reset"));
         if (defaultButton != null) { defaultButton.onClick.RemoveAllListeners(); defaultButton.onClick.AddListener(ResetToDefaults); }
 
         // Find Quit Button in Settings (if exists, e.g. "Quit to Menu")
-        Button quitButton = FindObjectsOfType<Button>(true).FirstOrDefault(b => b.name.Contains("Quit") || b.name.Contains("Exit"));
+        Button quitButton = FindObjectsByType<Button>(FindObjectsInactive.Include, FindObjectsSortMode.None).FirstOrDefault(b => b.name.Contains("Quit") || b.name.Contains("Exit"));
         if (quitButton != null) { quitButton.onClick.RemoveAllListeners(); quitButton.onClick.AddListener(QuitToMenu); }
 
 
@@ -105,7 +105,7 @@ public class SettingsMenu : MonoBehaviour
 
         // Setup Volume
         // Setup Volume
-        if (globalVolume == null) globalVolume = FindObjectOfType<UnityEngine.Rendering.Volume>();
+        if (globalVolume == null) globalVolume = FindFirstObjectByType<UnityEngine.Rendering.Volume>();
 
         // We verify volume exists, but we don't cache components anymore.
         if (globalVolume == null)
@@ -119,12 +119,12 @@ public class SettingsMenu : MonoBehaviour
 
     private Slider FindSliderByName(string partialName)
     {
-        return FindObjectsOfType<Slider>(true).FirstOrDefault(s => s.name.Contains(partialName));
+        return FindObjectsByType<Slider>(FindObjectsInactive.Include, FindObjectsSortMode.None).FirstOrDefault(s => s.name.Contains(partialName));
     }
 
     private TextMeshProUGUI FindTextByName(string partialName)
     {
-        return FindObjectsOfType<TextMeshProUGUI>(true).FirstOrDefault(t => t.name.Contains(partialName) && (t.name.Contains("Value") || t.name.Contains("Text")));
+        return FindObjectsByType<TextMeshProUGUI>(FindObjectsInactive.Include, FindObjectsSortMode.None).FirstOrDefault(t => t.name.Contains(partialName) && (t.name.Contains("Value") || t.name.Contains("Text")));
     }
 
     // --- LOGIC ---
@@ -160,7 +160,7 @@ public class SettingsMenu : MonoBehaviour
         }
         else
         {
-            var gc = FindObjectOfType<GammaController>();
+            var gc = FindFirstObjectByType<GammaController>();
             if (gc == null)
             {
                 GameObject go = new GameObject("GammaController_Auto");
@@ -183,7 +183,7 @@ public class SettingsMenu : MonoBehaviour
         }
         else
         {
-            var gc = FindObjectOfType<GammaController>();
+            var gc = FindFirstObjectByType<GammaController>();
             if (gc == null)
             {
                 GameObject go = new GameObject("GammaController_Auto");

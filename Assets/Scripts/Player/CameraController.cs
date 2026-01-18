@@ -5,6 +5,7 @@ public class CameraController : MonoBehaviour
 {
     [Header("Look Settings")]
     [SerializeField] private float mouseSensitivity = 50f;
+    public float MouseSensitivity { get { return mouseSensitivity; } set { mouseSensitivity = value; } }
     [SerializeField] private Transform playerBody;
 
     [Header("Input References")]
