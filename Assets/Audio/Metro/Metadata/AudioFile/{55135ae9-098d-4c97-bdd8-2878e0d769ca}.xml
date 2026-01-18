@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="AudioFile" id="{55135ae9-098d-4c97-bdd8-2878e0d769ca}">
+		<property name="assetPath">
+			<value>Metro_sfx/Wind.mp3</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>6.3840000000000003</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{7fe5bfb2-abb8-4df6-a1eb-237f831618e3}</destination>
+		</relationship>
+	</object>
+</objects>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="AudioFile" id="{39db134b-dc66-4e04-b026-f9dd9ff4f2d3}">
+		<property name="assetPath">
+			<value>Metro_sfx/The HUM Sample (Kokomo Hum  Taos Hum  Bristol Hum) - AVL Designs.mp3</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>13.968</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{7fe5bfb2-abb8-4df6-a1eb-237f831618e3}</destination>
+		</relationship>
+	</object>
+</objects>
