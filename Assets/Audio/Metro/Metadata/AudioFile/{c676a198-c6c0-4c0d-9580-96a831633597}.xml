@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="AudioFile" id="{c676a198-c6c0-4c0d-9580-96a831633597}">
+		<property name="assetPath">
+			<value>Metro_sfx/metal creak4.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>5.7999999999999998</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{7fe5bfb2-abb8-4df6-a1eb-237f831618e3}</destination>
+		</relationship>
+	</object>
+</objects>

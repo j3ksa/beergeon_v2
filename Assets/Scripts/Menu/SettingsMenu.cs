@@ -152,7 +152,6 @@ public class SettingsMenu : MonoBehaviour
         val = Mathf.Clamp(val, -0.4f, 0.5f); // Updated limits: -0.4 to 0.5
         pendingGamma = val;
         if (gammaValueText != null) gammaValueText.text = val.ToString("F1");
-
         // Use Global Gamma Controller
         if (GammaController.Instance != null)
         {
@@ -175,7 +174,6 @@ public class SettingsMenu : MonoBehaviour
         val = Mathf.Max(val, -9.9f); // Clamp min
         pendingContrast = val;
         if (contrastValueText != null) contrastValueText.text = val.ToString("F1");
-
         // Use Global Gamma Controller for consistency
         if (GammaController.Instance != null)
         {
@@ -224,14 +222,12 @@ public class SettingsMenu : MonoBehaviour
 
             Screen.SetResolution(res.width, res.height, mode);
         }
-
         QualitySettings.SetQualityLevel(pendingQualityIndex);
 
         // Save preferences from PENDING values (reliable)
         PlayerPrefs.SetInt(PREF_QUALITY, pendingQualityIndex);
         PlayerPrefs.SetInt(PREF_RES_INDEX, pendingResolutionIndex);
         PlayerPrefs.SetInt(PREF_FULLSCREEN, pendingFullscreenMode);
-
         // Gamma/Contrast are applied real-time usually, but let's save them
         // We use pending vars which are the source of truth
         PlayerPrefs.SetFloat(PREF_GAMMA, pendingGamma);
