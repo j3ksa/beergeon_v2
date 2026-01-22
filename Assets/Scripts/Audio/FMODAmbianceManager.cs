@@ -35,7 +35,8 @@ public class FMODAmbianceManager : MonoBehaviour
             if (playOnStart) // If we want to play an event staright away...
             {
                 ambEventInstances[EventNumber].start(); // Then play the one we chose the event number for.
-                ambEventInstances[EventNumber].setParameterByName(volCtrlParam, startVolCtrlParamAt);
+                // Fix: Global Parameters must be set via the System, not the Instance
+                RuntimeManager.StudioSystem.setParameterByName(volCtrlParam, startVolCtrlParamAt);
             }
         }
         else // If we chose to create ambiance instances on the fly then we don't have to create any yet.
@@ -44,7 +45,8 @@ public class FMODAmbianceManager : MonoBehaviour
             {
                 ambEventInstances[EventNumber] = RuntimeManager.CreateInstance(ambianceEvents[EventNumber]);
                 ambEventInstances[EventNumber].start();
-                ambEventInstances[EventNumber].setParameterByName(volCtrlParam, startVolCtrlParamAt);
+                // Fix: Global Parameters must be set via the System, not the Instance
+                RuntimeManager.StudioSystem.setParameterByName(volCtrlParam, startVolCtrlParamAt);
             }
         }
 
@@ -55,6 +57,21 @@ public class FMODAmbianceManager : MonoBehaviour
         paramMin = parameterInfo.minimum; // Then we can get each of those values from 'parameterInfo'.
         paramMax = parameterInfo.maximum;
         paramRange = paramMax - paramMin; // The difference between the min and max value is our range.
+    }
+
+    private void Update()
+    {
+        // Fix: Update 3D attributes for all active instances to prevent 3D positioning warnings
+        if (ambEventInstances != null)
+        {
+            foreach (var instance in ambEventInstances)
+            {
+                if (instance.isValid())
+                {
+                    instance.set3DAttributes(RuntimeUtils.To3DAttributes(gameObject));
+                }
+            }
+        }
     }
 
     public void PlayAmbiance(int index) // This is called by the 'Trigger Box Audio Blender' script when the player enters the trigger box. 'index' the element number of the ambiance we want to play.
@@ -72,13 +89,15 @@ public class FMODAmbianceManager : MonoBehaviour
     public void IncreaseParamViaAtoB(TriggerBoxAudioBlender triggerBoxAudioBlender) // Increase the Volume Control Parameter's value for the 'chosenAmbiance' based on the players progress through the trigger box.
     {
         float newParamValue = (triggerBoxAudioBlender.ProgressThroughTrigger / 100f * paramRange) + paramMin;
-        ambEventInstances[chosenAmbiance].setParameterByName(volCtrlParam, newParamValue);
+        // Fix: Use Global System API
+        RuntimeManager.StudioSystem.setParameterByName(volCtrlParam, newParamValue);
     }
 
     public void DecreaseParamViaAtoB(TriggerBoxAudioBlender triggerBoxAudioBlender) // Decrease the Volume Control Parameter's value for the 'chosenAmbiance' based on the players progress through the trigger box.
     {
         float newParamValue = paramMax - (triggerBoxAudioBlender.ProgressThroughTrigger / 100f * paramRange);
-        ambEventInstances[chosenAmbiance].setParameterByName(volCtrlParam, newParamValue);
+        // Fix: Use Global System API
+        RuntimeManager.StudioSystem.setParameterByName(volCtrlParam, newParamValue);
     }
 
     public void StopAmbiance(int index) // Tell the amabince with the elemtn number that matches 'index' to stop.
@@ -90,10 +109,16 @@ public class FMODAmbianceManager : MonoBehaviour
 
     private void OnDestroy() // If the gameObject that this script is attached to is destroyed, then this funciton stops any amabince playing and destroys all of our created ambiance event instances.
     {
-        for (int i = 0; i < ambianceEvents.Length; i++)
+        if (ambEventInstances != null)
         {
-            StopAmbiance(i);
-            ambEventInstances[i].release();
+            for (int i = 0; i < ambianceEvents.Length; i++)
+            {
+                StopAmbiance(i);
+                if (ambEventInstances[i].isValid())
+                {
+                    ambEventInstances[i].release();
+                }
+            }
         }
     }
 }
