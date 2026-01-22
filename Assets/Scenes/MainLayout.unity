@@ -7985,7 +7985,7 @@ Transform:
   m_GameObject: {fileID: 1534751826}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5, y: -0.5, z: 1}
+  m_LocalPosition: {x: 0.8, y: -0.5, z: 1}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8007,7 +8007,7 @@ MonoBehaviour:
   playerStats: {fileID: 1584861557}
   playerCamera: {fileID: 0}
   idleSprite: {fileID: 21300000, guid: 6fa47f245170e964683370525f6fc48c, type: 3}
-  attackSprite: {fileID: -6532440962066638028, guid: f4993f0d0c92bd5428caec8e025e80a2, type: 3}
+  attackSprite: {fileID: -3402172223355117456, guid: 9762be51fd5aa784494a2d59ceff4f01, type: 3}
   attackRange: 2
   attackDuration: 0.2
   attackCooldown: 0.5
@@ -8475,6 +8475,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Beergeon.Player.HandRenderingSetup
   handLayerName: PlayerHand
   handFOV: 60
+  targetSpriteHeight: 1
+  spriteSettings:
+  - sprite: {fileID: -3402172223355117456, guid: 9762be51fd5aa784494a2d59ceff4f01, type: 3}
+    rotationOffset: {x: 52, y: 34, z: 49}
+    positionOffset: {x: -0.4, y: 0.3, z: -0.25}
   mainCamera: {fileID: 1306831851}
   handCamera: {fileID: 0}
   handObject: {fileID: 1534751826}
@@ -11874,6 +11879,10 @@ PrefabInstance:
     - target: {fileID: 6006653905605118938, guid: 4e0156fc4e5b4fd4780b9784c396391b, type: 3}
       propertyPath: m_Name
       value: F_Doors_MainHUB_2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6085836557311526371, guid: 4e0156fc4e5b4fd4780b9784c396391b, type: 3}
+      propertyPath: animationSpeed
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
