@@ -5,7 +5,7 @@ public class MenuManager : MonoBehaviour
 {
     public void Play()
     {
-        SceneManager.LoadScene("TestScene"); 
+        SceneManager.LoadScene("MainLayout"); 
     }
     public void Settings()
     {
