@@ -86,7 +86,7 @@ public class GammaController : MonoBehaviour
         currentGamma = val;
         
         // 1. Gameplay Gamma (Post-Process)
-        if (globalVolume == null) globalVolume = FindObjectOfType<Volume>();
+        if (globalVolume == null) globalVolume = FindFirstObjectByType<Volume>();
         
         if (globalVolume != null && globalVolume.profile != null)
         {
@@ -115,7 +115,7 @@ public class GammaController : MonoBehaviour
         currentContrast = val;
 
         // 1. Gameplay Contrast
-        if (globalVolume == null) globalVolume = FindObjectOfType<Volume>();
+        if (globalVolume == null) globalVolume = FindFirstObjectByType<Volume>();
         
         if (globalVolume != null && globalVolume.profile != null)
         {
