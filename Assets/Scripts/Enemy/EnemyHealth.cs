@@ -19,7 +19,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         if (currentHealth <= 0) return;
 
         currentHealth -= damage;
-        Debug.Log($"{gameObject.name} took {damage} damage. Current Health: {currentHealth}");
+        
         OnDamageTaken?.Invoke(damage);
 
         // Simple Hit Flash Effect
@@ -33,7 +33,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
 
     private void Die()
     {
-        Debug.Log($"{gameObject.name} died.");
+        
         OnDeath?.Invoke();
         
         // Simple death handling: Destroy object

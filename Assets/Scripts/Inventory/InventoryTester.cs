@@ -17,11 +17,11 @@ public class InventoryTester : MonoBehaviour
                 // Pick a random item
                 Item itemToAdd = itemsToTest[Random.Range(0, itemsToTest.Length)];
                 bool added = Inventory.instance.Add(itemToAdd);
-                Debug.Log($"[InventoryTester] Added item '{itemToAdd.name}': {added}");
+                
             }
             else
             {
-                Debug.LogWarning("[InventoryTester] Assign items in the inspector!");
+                
             }
         }
 
@@ -35,7 +35,7 @@ public class InventoryTester : MonoBehaviour
                     if (Inventory.instance.items.Contains(item))
                     {
                         Inventory.instance.Remove(item);
-                        Debug.Log($"[InventoryTester] Removed item '{item.name}'");
+                        
                         break;
                     }
                 }

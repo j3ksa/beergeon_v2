@@ -50,7 +50,7 @@ public class PauseMenu : MonoBehaviour
 
     public void QuitGame()
     {
-        Debug.Log("QuitGame pressed!");
+        
         Time.timeScale = 1f;
         AudioListener.pause = false;
         SceneManager.LoadScene("MainMenu");
