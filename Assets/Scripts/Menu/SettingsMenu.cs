@@ -78,7 +78,7 @@ public class SettingsMenu : MonoBehaviour
         if (resolutionDropdown != null) { resolutionDropdown.onValueChanged.RemoveAllListeners(); resolutionDropdown.onValueChanged.AddListener(SetResolution); }
         if (fullscreenDropdown != null) { fullscreenDropdown.onValueChanged.RemoveAllListeners(); fullscreenDropdown.onValueChanged.AddListener(SetFullscreenMode); }
 
-        Debug.Log($"[SettingsMenu] Auto-Wiring Complete.");
+        
 
         
         // --- LOGIC INIT ---
@@ -111,7 +111,7 @@ public class SettingsMenu : MonoBehaviour
         if (globalVolume == null)
         {
             // Try one more time? Or just log.
-            // Debug.LogWarning("[SettingsMenu] Global Volume not found in scene.");
+            // 
         }
 
         LoadSettings();
@@ -239,7 +239,7 @@ public class SettingsMenu : MonoBehaviour
 
         PlayerPrefs.Save();
 
-        Debug.Log($"[SettingsMenu] Settings Applied and Saved! Gamma={pendingGamma}, Contrast={pendingContrast}");
+        
     }
 
     private void LoadSettings()

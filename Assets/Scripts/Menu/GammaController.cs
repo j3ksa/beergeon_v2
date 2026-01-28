@@ -104,7 +104,7 @@ public class GammaController : MonoBehaviour
         }
         else
         {
-            // Debug.LogWarning("[GammaController] Could not find Global Volume!");
+            // 
         }
 
         UpdateGammaOverlay();

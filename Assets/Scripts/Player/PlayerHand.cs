@@ -25,10 +25,16 @@ public class PlayerHand : MonoBehaviour
     [Header("Input")]
     [SerializeField] private InputActionReference attackAction;
 
+    [Header("Inventory Integration")]
+    [SerializeField] private PlayerController playerController;
+
     private float defaultYPos;
     private float timer = 0;
     private bool isAttacking = false;
     private float lastAttackTime = 0;
+    
+    // Store current equipped info
+    private EquippableItem currentItem;
 
     private void Start()
     {
@@ -48,10 +54,18 @@ public class PlayerHand : MonoBehaviour
             playerStats = GetComponentInParent<PlayerStats>();
         }
         
-        // Try to find character controller for bobbing
         if (characterController == null)
         {
             characterController = GetComponentInParent<CharacterController>();
+        }
+
+        if (playerController == null) playerController = GetComponentInParent<PlayerController>();
+
+        // Init initial state
+        if (Inventory.instance != null)
+        {
+            Inventory.instance.OnActiveSlotChanged.AddListener(UpdateHandVisuals);
+            UpdateHandVisuals(); // Set initial
         }
     }
 
@@ -70,6 +84,11 @@ public class PlayerHand : MonoBehaviour
         {
             attackAction.action.performed -= OnAttack;
             attackAction.action.Disable();
+        }
+
+        if (Inventory.instance != null)
+        {
+            Inventory.instance.OnActiveSlotChanged.RemoveListener(UpdateHandVisuals);
         }
     }
 
@@ -97,7 +116,10 @@ public class PlayerHand : MonoBehaviour
 
     private void OnAttack(InputAction.CallbackContext context)
     {
-        if (Time.time < lastAttackTime + attackCooldown || isAttacking) return;
+        // Check cooldown from item or default
+        float cooldown = (currentItem != null) ? currentItem.cooldown : attackCooldown;
+
+        if (Time.time < lastAttackTime + cooldown || isAttacking) return;
 
         StartCoroutine(AttackRoutine());
     }
@@ -108,25 +130,83 @@ public class PlayerHand : MonoBehaviour
         lastAttackTime = Time.time;
 
         // Visual change
-        if (attackSprite != null)
+        bool resetSprite = false;
+
+        if (currentItem != null)
         {
-            spriteRenderer.sprite = attackSprite;
+            // If item has a specific attack sprite, use it. 
+            // If internal weapon logic handles it, skipping sprite change here might be needed, 
+            // but for now we follow the plan: WeaponItem uses heldSprite primarily, unless attackSprite is set.
+             if (currentItem is WeaponItem weapon && weapon.attackSprite != null)
+             {
+                 spriteRenderer.sprite = weapon.attackSprite;
+                 resetSprite = true;
+             }
+             // For Potions, we might want a drinking animation/sprite later?
+        }
+        else
+        {
+             // Default fist
+             if (attackSprite != null)
+             {
+                 spriteRenderer.sprite = attackSprite;
+                 resetSprite = true;
+             }
         }
         
-        Debug.Log("Attacking!");
+        
 
         // Logic
-        PerformRaycast();
+        if (currentItem != null)
+        {
+            currentItem.Use(playerController, this);
+        }
+        else
+        {
+             // Default Punch
+             PerformRaycast();
+        }
 
+        // Use item duration if applicable, else default
+        // Weapon items might define a swing time separate from cooldown
         yield return new WaitForSeconds(attackDuration);
 
         // Reset visual
-        if (idleSprite != null)
+        if (resetSprite)
         {
-            spriteRenderer.sprite = idleSprite;
+            UpdateHandVisuals();
         }
         
         isAttacking = false;
+    }
+
+    public void UpdateHandVisuals()
+    {
+        if (Inventory.instance == null) return;
+
+        Item item = Inventory.instance.GetActiveItem();
+        if (item is EquippableItem equippable)
+        {
+            currentItem = equippable;
+            if (equippable.heldSprite != null)
+            {
+                spriteRenderer.sprite = equippable.heldSprite;
+            }
+            else
+            {
+                // Fallback if item has no sprite??
+                spriteRenderer.sprite = null; 
+            }
+        }
+        else
+        {
+            currentItem = null;
+            // Default Open Hand
+            if (idleSprite != null)
+            {
+                spriteRenderer.sprite = idleSprite;
+            }
+        }
     }
 
     private void PerformRaycast()
@@ -141,7 +221,7 @@ public class PlayerHand : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, attackRange, layerMask))
         {
-            Debug.Log($"Hit: {hit.collider.name}");
+            
             
             IDamageable damageable = hit.collider.GetComponent<IDamageable>();
             if (damageable != null)

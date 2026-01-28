@@ -7,7 +7,7 @@ public class TrainingDummy : MonoBehaviour, IDamageable
     public void TakeDamage(int damage)
     {
         health -= damage;
-        Debug.Log($"Training Dummy took {damage} damage! Current health: {health}");
+        
         
         // Simple hit effect
         StartCoroutine(FlashRed());
@@ -20,7 +20,7 @@ public class TrainingDummy : MonoBehaviour, IDamageable
 
     private void Die()
     {
-        Debug.Log("Training Dummy Destroyed!");
+        
         Destroy(gameObject);
     }
 
