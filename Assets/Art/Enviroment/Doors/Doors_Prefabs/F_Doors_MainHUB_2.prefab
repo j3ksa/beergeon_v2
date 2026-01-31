@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6006653905605118938}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.643, y: 1.0414554, z: -6.169}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -127,3 +127,17 @@ MonoBehaviour:
   openAngle: 90
   animationSpeed: 2
   isOpen: 0
+  doorCreakEvent:
+    Guid:
+      Data1: -678511027
+      Data2: 1131913903
+      Data3: -839455309
+      Data4: -549936618
+    Path: event:/Sfx/Door_Creak
+  doorShutEvent:
+    Guid:
+      Data1: -1853636599
+      Data2: 1119376693
+      Data3: 563000469
+      Data4: -1314275593
+    Path: event:/Sfx/Door_Shut
