@@ -47,12 +47,26 @@ public class SettingsMenu : MonoBehaviour
     {
         // --- AUTO WIRING SECTION ---
         if (qualitySlider == null) qualitySlider = FindSliderByName("Quality");
-        if (gammaSlider == null) gammaSlider = FindSliderByName("Gamma");
-        if (contrastSlider == null) contrastSlider = FindSliderByName("Contrast");
+
+        // Improved search for Gamma (English + Polish + typos)
+        if (gammaSlider == null)
+        {
+            gammaSlider = FindSliderByName("Gamma");
+            if (gammaSlider == null) gammaSlider = FindSliderByName("Jasność"); // Polish
+            if (gammaSlider == null) gammaSlider = FindSliderByName("Jasnosc"); // Polish no accents
+            if (gammaSlider == null) gammaSlider = FindSliderByName("Brightness");
+        }
+
+        if (contrastSlider == null)
+        {
+            contrastSlider = FindSliderByName("Contrast");
+            if (contrastSlider == null) contrastSlider = FindSliderByName("Kontrast"); // Polish
+        }
 
         // Enforce user-requested limits
-        if (gammaSlider != null) gammaSlider.minValue = -0.3f;
-        if (contrastSlider != null) contrastSlider.minValue = -9.9f;
+        // Enforce user-requested limits
+        if (gammaSlider != null) { gammaSlider.minValue = -0.5f; gammaSlider.maxValue = 0.5f; }
+        if (contrastSlider != null) { contrastSlider.minValue = -99f; contrastSlider.maxValue = 99f; }
 
         if (resolutionDropdown == null) resolutionDropdown = FindObjectsByType<TMP_Dropdown>(FindObjectsInactive.Include, FindObjectsSortMode.None).FirstOrDefault(d => d.name.Contains("Resolution"));
         if (fullscreenDropdown == null) fullscreenDropdown = FindObjectsByType<TMP_Dropdown>(FindObjectsInactive.Include, FindObjectsSortMode.None).FirstOrDefault(d => d.name.Contains("Screen") || d.name.Contains("Mode")); // "Screen Mode" or "Fullscreen Mode"
@@ -115,11 +129,22 @@ public class SettingsMenu : MonoBehaviour
         }
 
         LoadSettings();
+
+        // Fix: Ensure the Settings Menu doesn't stay open over the game if not in the Settings scene
+        if (SceneManager.GetActiveScene().name != "Settings")
+        {
+            // Only auto-hide if we are not the PauseMenuUI itself (check parent)
+            // Use a safe check
+            if (gameObject.activeInHierarchy) gameObject.SetActive(false);
+        }
     }
 
     private Slider FindSliderByName(string partialName)
     {
-        return FindObjectsByType<Slider>(FindObjectsInactive.Include, FindObjectsSortMode.None).FirstOrDefault(s => s.name.Contains(partialName));
+        // Try to find by partial name (case insensitive could be better but Contains is case sensitive)
+        // Let's make it case insensitive for robustness
+        return FindObjectsByType<Slider>(FindObjectsInactive.Include, FindObjectsSortMode.None)
+            .FirstOrDefault(s => s.name.IndexOf(partialName, System.StringComparison.OrdinalIgnoreCase) >= 0);
     }
 
     private TextMeshProUGUI FindTextByName(string partialName)
@@ -149,7 +174,7 @@ public class SettingsMenu : MonoBehaviour
 
     public void SetGamma(float val)
     {
-        val = Mathf.Clamp(val, -0.4f, 0.5f); // Updated limits: -0.4 to 0.5
+        val = Mathf.Clamp(val, -0.5f, 0.5f); // Updated limits: -0.5 to 0.5
         pendingGamma = val;
         if (gammaValueText != null) gammaValueText.text = val.ToString("F1");
         // Use Global Gamma Controller
@@ -171,7 +196,7 @@ public class SettingsMenu : MonoBehaviour
 
     public void SetContrast(float val)
     {
-        val = Mathf.Max(val, -9.9f); // Clamp min
+        val = Mathf.Clamp(val, -99f, 99f); // Updated limits: -99 to 99
         pendingContrast = val;
         if (contrastValueText != null) contrastValueText.text = val.ToString("F1");
         // Use Global Gamma Controller for consistency
