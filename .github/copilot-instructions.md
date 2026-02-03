@@ -1,3 +1,12 @@
+# GitHub Copilot Instructions - Beergeon
+
+This repository contains project-specific instructions for GitHub Copilot. 
+
+## Context Trigger
+When the user includes the string `@codeContext:` in their prompt, prioritize the following project details and standards to ensure all generated code and advice is aligned with the project's architecture and vision.
+
+---
+
 # Project Context: Beergeon
 
 ## Project Overview
@@ -14,6 +23,23 @@
 - **Exploration**: Navigating interconnected, procedural-like tunnels and chambers.
 - **Combat**: First-person real-time combat against exaggerated enemies.
 - **Progression**: Collecting loot, upgrading gear, and trading with mysterious merchants.
+
+### Inventory & Items
+- **Structure**:
+  - `ScriptableObjects` (`EquippableItem`, `WeaponItem`, `PotionItem`) define item data.
+  - `Inventory` (Singleton) manages the list of items and the **Active Slot**.
+- **Player Hand**:
+  - `PlayerHand` listens to `Inventory` events.
+  - Visuals change dynamically based on the active item (Weapon vs Potion vs Empty Hand).
+  - Empty Hand defaults to "Open Hand" (idle) and "Fist" (attack).
+- **Inputs**:
+  - **Scroll**: Changes active slot.
+  - **Q**: Drops the active item (instantiates `Pickup Prefab`).
+  - **E**: Interacts/Pickups items.
+  - **Click**: Uses the active item (Attack/Consume).
+- **Pickups**:
+  - World items use `ItemPickup` component and `IInteractable` interface.
+  - Auto-scaling is handled via `OnValidate` in `ItemPickup`.
 
 ## Programming Standards & Best Practices
 

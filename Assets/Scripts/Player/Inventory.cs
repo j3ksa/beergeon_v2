@@ -17,22 +17,27 @@ public class Inventory : MonoBehaviour
     {
         if (instance != null)
         {
-            Debug.LogWarning("More than one instance of Inventory found!");
+            
             return;
         }
         instance = this;
     }
 
+    [Header("Active Slot")]
+    public int activeSlotIndex = 0;
+    public UnityEvent OnActiveSlotChanged;
+
     public bool Add(Item item)
     {
         if (items.Count >= space)
         {
-            Debug.Log("Not enough room.");
+            
             return false;
         }
 
         items.Add(item);
         OnInventoryChanged?.Invoke();
+        if (items.Count - 1 == activeSlotIndex) OnActiveSlotChanged?.Invoke(); 
         return true;
     }
 
@@ -40,5 +45,50 @@ public class Inventory : MonoBehaviour
     {
         items.Remove(item);
         OnInventoryChanged?.Invoke();
+        OnActiveSlotChanged?.Invoke(); // Content of active slot might have changed
+    }
+    
+    public void ScrollActiveSlot(float direction)
+    {
+        if (direction > 0)
+        {
+            activeSlotIndex--;
+            if (activeSlotIndex < 0) activeSlotIndex = space - 1;
+        }
+        else if (direction < 0)
+        {
+            activeSlotIndex++;
+            if (activeSlotIndex >= space) activeSlotIndex = 0;
+        }
+        
+        if (direction != 0)
+        {
+            OnActiveSlotChanged?.Invoke();
+        }
+    }
+    
+    public void DropActiveItem(Vector3 dropPos, Quaternion dropRot)
+    {
+        Item activeItem = GetActiveItem();
+        if (activeItem != null)
+        {
+            Remove(activeItem);
+            
+            if (activeItem.pickupPrefab != null)
+            {
+                Instantiate(activeItem.pickupPrefab, dropPos, dropRot);
+            }
+            
+            Debug.Log($"Dropped {activeItem.itemName}");
+        }
+    }
+
+    public Item GetActiveItem()
+    {
+        if (activeSlotIndex < items.Count && activeSlotIndex >= 0)
+        {
+            return items[activeSlotIndex];
+        }
+        return null;
     }
 }

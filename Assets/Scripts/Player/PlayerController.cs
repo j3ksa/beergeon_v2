@@ -110,6 +110,24 @@ public class PlayerController : MonoBehaviour
             if (playerInteraction != null) playerInteraction.PerformInteraction();
         }
 
+        // Mouse Scroll for Inventory
+        if (Mouse.current != null)
+        {
+            float scroll = Mouse.current.scroll.y.ReadValue();
+            if (scroll != 0 && Inventory.instance != null)
+            {
+                Inventory.instance.ScrollActiveSlot(scroll);
+            }
+        }
+        
+        // Drop Item
+        if (Keyboard.current != null && Keyboard.current.qKey.wasPressedThisFrame)
+        {
+            if (Inventory.instance != null)
+            {
+                Inventory.instance.DropActiveItem(transform.position + transform.forward + Vector3.up * 0.5f, Quaternion.identity);
+            }
+        }
         velocity.y += gravity * Time.deltaTime;
         //...
 

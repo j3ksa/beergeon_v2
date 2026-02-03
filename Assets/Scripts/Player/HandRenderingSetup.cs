@@ -8,6 +8,20 @@ namespace Beergeon.Player
     /// to use URP Camera Stacking for the weapon/hand.
     /// This ensures the hand is drawn on top of everything and doesn't clip into walls.
     /// </summary>
+    [System.Serializable]
+    public struct SpriteSettings
+    {
+        public Sprite sprite;
+        public Vector3 rotationOffset;
+        public Vector3 positionOffset; // Might be useful too, adding for completeness
+    }
+
+    /// <summary>
+    /// Automatically configures the Main Camera and a child "Hand Camera" 
+    /// to use URP Camera Stacking for the weapon/hand.
+    /// This ensures the hand is drawn on top of everything and doesn't clip into walls.
+    /// Also handles automatic scaling and rotation based on the current sprite.
+    /// </summary>
     public class HandRenderingSetup : MonoBehaviour
     {
         [Header("Settings")]
@@ -17,16 +31,93 @@ namespace Beergeon.Player
         [Tooltip("Field of View for the Hand Camera. Usually wider than main FOV to make weapon look good.")]
         [SerializeField] private float handFOV = 60f;
 
+        [Tooltip("Target height in world units for the hand sprite. If > 0, the hand will auto-scale to this height.")]
+        [SerializeField] private float targetSpriteHeight = 1.0f;
+
+        [Tooltip("Specific settings for individual sprites (like rotation for attacks).")]
+        [SerializeField] private System.Collections.Generic.List<SpriteSettings> spriteSettings;
+
         [Header("References")]
         [SerializeField] private Camera mainCamera;
         [SerializeField] private Camera handCamera;
         [SerializeField] private GameObject handObject;
+
+        private SpriteRenderer handRenderer;
+        private Sprite lastSprite;
+        private Vector3 initialLocalPosition;
 
         private void Start()
         {
             SetupCameras();
             SetupHandLayer();
             DisableHandCollision();
+
+            // Cache renderer for auto-scaling
+            if (handObject != null)
+            {
+                handRenderer = handObject.GetComponentInChildren<SpriteRenderer>();
+                initialLocalPosition = handObject.transform.localPosition;
+                UpdateHandVisuals();
+            }
+        }
+
+        private void LateUpdate()
+        {
+            // Update every frame to support live-tweaking in Inspector
+            // and to ensure rotation/scale persists 
+            if (handRenderer != null)
+            {
+                UpdateHandVisuals();
+            }
+        }
+
+        private void UpdateHandVisuals()
+        {
+            if (handRenderer == null || handRenderer.sprite == null) return;
+
+            lastSprite = handRenderer.sprite;
+            
+            // --- 1. Rotation & Position Offsets ---
+            Vector3 targetRotation = Vector3.zero;
+            Vector3 targetPosOffset = Vector3.zero;
+
+            if (spriteSettings != null)
+            {
+                foreach (var setting in spriteSettings)
+                {
+                    if (setting.sprite == lastSprite)
+                    {
+                        targetRotation = setting.rotationOffset;
+                        targetPosOffset = setting.positionOffset; 
+                        break;
+                    }
+                }
+            }
+
+            // Apply rotation
+            handObject.transform.localRotation = Quaternion.Euler(targetRotation);
+            
+            // Apply position (Bobbing in PlayerHand might override this if it modifies localPosition directly, 
+            // but for now we apply the offset relative to the initial position we found).
+            // Be aware: If PlayerHand is bobbing the same transform, there might be conflict.
+            // Assuming PlayerHand bobs the transform THIS script is attached to, or the parent.
+            // If HandRenderingSetup is on the same object as PlayerHand, handObject is likely a child.
+            handObject.transform.localPosition = initialLocalPosition + targetPosOffset;
+
+            // --- 2. Scale ---
+            if (targetSpriteHeight <= 0) return;
+
+            // Calculate current height in world units (without our custom scaling)
+            // sprite.bounds.size is in local space (pixels / ppu)
+            // We want to set localScale so that: localScale.y * sprite.bounds.size.y == targetSpriteHeight
+            
+            float spriteHeight = handRenderer.sprite.bounds.size.y;
+            if (spriteHeight > 0.001f)
+            {
+                float newScale = targetSpriteHeight / spriteHeight;
+                // Apply uniform scaling to preserve aspect ratio
+                handObject.transform.localScale = new Vector3(newScale, newScale, newScale);
+            }
         }
 
         [ContextMenu("Setup Now")]
@@ -37,7 +128,7 @@ namespace Beergeon.Player
             // 1. Validate Main Camera
             if (mainCamera == null)
             {
-                Debug.LogError("[HandRenderingSetup] No Main Camera found!");
+                
                 return;
             }
 
@@ -86,7 +177,7 @@ namespace Beergeon.Player
             int handLayer = LayerMask.NameToLayer(handLayerName);
             if (handLayer == -1)
             {
-                Debug.LogError($"[HandRenderingSetup] Layer '{handLayerName}' does not exist! Please add it in Project Settings.");
+                
                 return;
             }
 
@@ -110,7 +201,7 @@ namespace Beergeon.Player
             if (!alreadyInStack)
             {
                 mainCamData.cameraStack.Add(handCamera);
-                Debug.Log("[HandRenderingSetup] Added HandCamera to Main Camera stack.");
+                
             }
         }
 
