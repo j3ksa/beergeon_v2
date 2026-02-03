@@ -97,6 +97,9 @@ public class PlayerHand : MonoBehaviour
 
     private void OnAttack(InputAction.CallbackContext context)
     {
+        // Block attack if game is paused (timeScale is 0) or cursor is unlocked (interacting with UI)
+        if (Time.timeScale == 0f || Cursor.lockState != CursorLockMode.Locked) return;
+
         if (Time.time < lastAttackTime + attackCooldown || isAttacking) return;
 
         StartCoroutine(AttackRoutine());

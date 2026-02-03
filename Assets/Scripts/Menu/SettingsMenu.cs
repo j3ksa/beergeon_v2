@@ -19,10 +19,11 @@ public class SettingsMenu : MonoBehaviour
     public TextMeshProUGUI gammaValueText;
     public TextMeshProUGUI contrastValueText;
 
+    [Header("Notification")]
+    public TextMeshProUGUI notificationText;
+
     [Header("Post Processing")]
     public UnityEngine.Rendering.Volume globalVolume;
-
-    // Derived components are now fetched on demand to avoid MissingReferenceException with cached ScriptableObjects
 
     // Internal state
     private int pendingResolutionIndex;
@@ -41,6 +42,18 @@ public class SettingsMenu : MonoBehaviour
     private const string PREF_FULLSCREEN = "Settings_FullscreenMode";
     private const string PREF_GAMMA = "Settings_Gamma";
     private const string PREF_CONTRAST = "Settings_Contrast";
+    private const string PREF_SENSITIVITY = "MouseSensitivity"; // Matches sensitivity.cs
+    private const string PREF_VOLUME = "Settings_MasterVolume";
+
+    [Header("Sensitivity")]
+    public Slider sensitivitySlider;
+    public TextMeshProUGUI sensitivityValueText;
+    private float pendingSensitivity;
+
+    [Header("Audio")]
+    public Slider volumeSlider;
+    public TextMeshProUGUI volumeValueText;
+    private float pendingVolume;
 
 
     void Start()
@@ -64,7 +77,6 @@ public class SettingsMenu : MonoBehaviour
         }
 
         // Enforce user-requested limits
-        // Enforce user-requested limits
         if (gammaSlider != null) { gammaSlider.minValue = -0.5f; gammaSlider.maxValue = 0.5f; }
         if (contrastSlider != null) { contrastSlider.minValue = -99f; contrastSlider.maxValue = 99f; }
 
@@ -74,21 +86,83 @@ public class SettingsMenu : MonoBehaviour
         if (qualityValueText == null) qualityValueText = FindTextByName("Quality");
         if (gammaValueText == null) gammaValueText = FindTextByName("Gamma");
         if (contrastValueText == null) contrastValueText = FindTextByName("Contrast");
+        if (sensitivityValueText == null) sensitivityValueText = FindTextByName("Sens");
 
-        Button applyButton = FindObjectsByType<Button>(FindObjectsInactive.Include, FindObjectsSortMode.None).FirstOrDefault(b => b.name.Contains("Apply") || b.name.Contains("Zastosuj"));
-        if (applyButton != null) { applyButton.onClick.RemoveAllListeners(); applyButton.onClick.AddListener(ApplyGraphics); }
+        // Find Notification Text
+        if (notificationText == null)
+        {
+            notificationText = FindObjectsByType<TextMeshProUGUI>(FindObjectsInactive.Include, FindObjectsSortMode.None)
+               .FirstOrDefault(t => t.name.Contains("Notify") || t.name.Contains("Notification") || t.name.Contains("ApplyMessage"));
+        }
 
-        Button defaultButton = FindObjectsByType<Button>(FindObjectsInactive.Include, FindObjectsSortMode.None).FirstOrDefault(b => b.name.Contains("Default") || b.name.Contains("Reset"));
-        if (defaultButton != null) { defaultButton.onClick.RemoveAllListeners(); defaultButton.onClick.AddListener(ResetToDefaults); }
+        if (volumeSlider != null)
+        {
+             volumeSlider.minValue = 0f;
+             volumeSlider.maxValue = 1f;
+             volumeSlider.wholeNumbers = false; // Fix for snapping only to 0/1
+             volumeSlider.onValueChanged.AddListener(SetVolume);
+        }
 
-        // Find Quit Button in Settings (if exists, e.g. "Quit to Menu")
-        Button quitButton = FindObjectsByType<Button>(FindObjectsInactive.Include, FindObjectsSortMode.None).FirstOrDefault(b => b.name.Contains("Quit") || b.name.Contains("Exit"));
-        if (quitButton != null) { quitButton.onClick.RemoveAllListeners(); quitButton.onClick.AddListener(QuitToMenu); }
+        // --- BUTTONS SMART WIRING ---
+        var allButtons = FindObjectsByType<Button>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        
+        foreach(var btn in allButtons)
+        {
+            if (btn == null) continue;
+            string lowerName = btn.name.ToLower();
+            string parentName = btn.transform.parent != null ? btn.transform.parent.name.ToLower() : "";
+            
+            // APPLY BUTTONS
+            if (lowerName.Contains("apply") || lowerName.Contains("zastosuj"))
+            {
+                btn.onClick.RemoveAllListeners();
+                if (parentName.Contains("sound") || parentName.Contains("audio") || parentName.Contains("dźwięk"))
+                {
+                    btn.onClick.AddListener(ApplySound);
+                }
+                else if (parentName.Contains("mouse") || parentName.Contains("sens"))
+                {
+                    // No specific apply for mouse implemented, maybe just save?
+                    btn.onClick.AddListener(() => PlayerPrefs.Save());
+                }
+                else
+                {
+                    // Default to Graphics
+                    btn.onClick.AddListener(ApplyGraphics);
+                }
+            }
+            
+            // DEFAULT BUTTONS
+            if (lowerName.Contains("default") || lowerName.Contains("reset"))
+            {
+                btn.onClick.RemoveAllListeners();
+                if (parentName.Contains("sound") || parentName.Contains("audio") || parentName.Contains("dźwięk"))
+                {
+                    btn.onClick.AddListener(ResetVolume);
+                }
+                else if (parentName.Contains("mouse") || parentName.Contains("sens"))
+                {
+                    btn.onClick.AddListener(ResetSensitivity);
+                }
+                else
+                {
+                    // Default to Graphics
+                    btn.onClick.AddListener(ResetToDefaults);
+                }
+            }
 
+            // QUIT BUTTON
+            if (lowerName.Contains("quit") || lowerName.Contains("exit"))
+            {
+                btn.onClick.RemoveAllListeners();
+                btn.onClick.AddListener(QuitToMenu);
+            }
+        }
 
         if (qualitySlider != null) { qualitySlider.onValueChanged.RemoveAllListeners(); qualitySlider.onValueChanged.AddListener(SetQuality); }
         if (gammaSlider != null) { gammaSlider.onValueChanged.RemoveAllListeners(); gammaSlider.onValueChanged.AddListener(SetGamma); }
         if (contrastSlider != null) { contrastSlider.onValueChanged.RemoveAllListeners(); contrastSlider.onValueChanged.AddListener(SetContrast); }
+        if (sensitivitySlider != null) { sensitivitySlider.onValueChanged.RemoveAllListeners(); sensitivitySlider.onValueChanged.AddListener(SetSensitivity); }
         if (resolutionDropdown != null) { resolutionDropdown.onValueChanged.RemoveAllListeners(); resolutionDropdown.onValueChanged.AddListener(SetResolution); }
         if (fullscreenDropdown != null) { fullscreenDropdown.onValueChanged.RemoveAllListeners(); fullscreenDropdown.onValueChanged.AddListener(SetFullscreenMode); }
 
@@ -117,32 +191,64 @@ public class SettingsMenu : MonoBehaviour
             fullscreenDropdown.AddOptions(new List<string> { "Exclusive Fullscreen", "Fullscreen Window", "Windowed" });
         }
 
-        // Setup Volume
-        // Setup Volume
         if (globalVolume == null) globalVolume = FindFirstObjectByType<UnityEngine.Rendering.Volume>();
-
-        // We verify volume exists, but we don't cache components anymore.
-        if (globalVolume == null)
-        {
-            // Try one more time? Or just log.
-            // Debug.LogWarning("[SettingsMenu] Global Volume not found in scene.");
-        }
 
         LoadSettings();
 
-        // Fix: Ensure the Settings Menu doesn't stay open over the game if not in the Settings scene
-        if (SceneManager.GetActiveScene().name != "Settings")
+        // --- FIX: Auto-subscribe to events to ensure functionality ---
+        // (Moved to Update for persistence, but kept here for init)
+        if (fullscreenDropdown != null) fullscreenDropdown.onValueChanged.AddListener(SetFullscreenMode);
+        if (resolutionDropdown != null) resolutionDropdown.onValueChanged.AddListener(SetResolution);
+        if (qualitySlider != null) qualitySlider.onValueChanged.AddListener(SetQuality);
+        if (gammaSlider != null) gammaSlider.onValueChanged.AddListener(SetGamma);
+        if (contrastSlider != null) contrastSlider.onValueChanged.AddListener(SetContrast);
+        if (sensitivitySlider != null) sensitivitySlider.onValueChanged.AddListener(SetSensitivity);
+        
+        // --- VOLUME AUTO WIRING ---
+        if (volumeSlider == null) 
         {
-            // Only auto-hide if we are not the PauseMenuUI itself (check parent)
-            // Use a safe check
-            if (gameObject.activeInHierarchy) gameObject.SetActive(false);
+             volumeSlider = FindSliderByName("Sound");
+             if (volumeSlider == null) volumeSlider = FindSliderByName("Volume");
+             if (volumeSlider == null) volumeSlider = FindSliderByName("Audio");
+             if (volumeSlider == null) volumeSlider = FindSliderByName("Dźwięk");
+        }
+        
+        if (volumeValueText == null) volumeValueText = FindTextNextToSlider(volumeSlider, "Sound");
+        if (volumeValueText == null) volumeValueText = FindTextByName("Sound"); // Fallback
+
+        if (volumeSlider != null)
+        {
+             volumeSlider.minValue = 0f;
+             volumeSlider.maxValue = 1f;
+             volumeSlider.onValueChanged.AddListener(SetVolume);
+        }
+    }
+    
+    // ... FindTextNextToSlider helper was missing in previous view, adding it back if needed or using FindTextByName
+    private TextMeshProUGUI FindTextNextToSlider(Slider slider, string fallbackName)
+    {
+        if (slider != null && slider.transform.parent != null)
+        {
+            var siblingTexts = slider.transform.parent.GetComponentsInChildren<TextMeshProUGUI>(true);
+            foreach(var t in siblingTexts)
+            {
+                 if (t.name.Contains("Value") || t.name.Contains("Num") || t.name.Contains("Text") || t.name.Contains("%")) return t;
+            }
+        }
+        return null;
+    }
+
+    private void ValidateVolume()
+    {
+        if (globalVolume == null)
+        {
+            globalVolume = FindFirstObjectByType<UnityEngine.Rendering.Volume>();
+            if (globalVolume != null) Debug.Log("[SettingsMenu] Global Volume re-found.");
         }
     }
 
     private Slider FindSliderByName(string partialName)
     {
-        // Try to find by partial name (case insensitive could be better but Contains is case sensitive)
-        // Let's make it case insensitive for robustness
         return FindObjectsByType<Slider>(FindObjectsInactive.Include, FindObjectsSortMode.None)
             .FirstOrDefault(s => s.name.IndexOf(partialName, System.StringComparison.OrdinalIgnoreCase) >= 0);
     }
@@ -154,15 +260,29 @@ public class SettingsMenu : MonoBehaviour
 
     // --- LOGIC ---
 
+    private bool eventsHooked = false;
+    void Update()
+    {
+        if (!eventsHooked)
+        {
+            if (gammaSlider != null) { gammaSlider.onValueChanged.RemoveAllListeners(); gammaSlider.onValueChanged.AddListener(SetGamma); }
+            if (contrastSlider != null) { contrastSlider.onValueChanged.RemoveAllListeners(); contrastSlider.onValueChanged.AddListener(SetContrast); }
+            eventsHooked = true;
+            Debug.Log("[SettingsMenu] Events force-hooked in Update.");
+        }
+    }
+
     public void SetResolution(int resolutionIndex)
     {
         pendingResolutionIndex = resolutionIndex;
+        Debug.Log($"[SettingsMenu] Resolution selected: Index {resolutionIndex}");
     }
 
     public void SetFullscreenMode(int modeIndex)
     {
         // 0 = Exclusive, 1 = FullscreenWindow, 2 = Windowed
         pendingFullscreenMode = modeIndex;
+        Debug.Log($"[SettingsMenu] Fullscreen Mode selected: Index {modeIndex}");
     }
 
     public void SetQuality(float qualityIndex)
@@ -172,12 +292,29 @@ public class SettingsMenu : MonoBehaviour
         if (qualityValueText != null) qualityValueText.text = rounded.ToString();
     }
 
+    public void SetSensitivity(float val)
+    {
+        pendingSensitivity = val;
+        if (sensitivityValueText != null) sensitivityValueText.text = val.ToString("F0");
+
+        // Instant Save for Sensitivity
+        PlayerPrefs.SetFloat(PREF_SENSITIVITY, val);
+        PlayerPrefs.Save();
+    }
+
     public void SetGamma(float val)
     {
-        val = Mathf.Clamp(val, -0.5f, 0.5f); // Updated limits: -0.5 to 0.5
+        Debug.Log($"[SettingsMenu] SetGamma Called. Raw Val: {val}");
+        val = Mathf.Clamp(val, -0.5f, 0.5f);
         pendingGamma = val;
-        if (gammaValueText != null) gammaValueText.text = val.ToString("F1");
-        // Use Global Gamma Controller
+
+        if (gammaValueText != null)
+        {
+            gammaValueText.text = val.ToString("F1");
+            gammaValueText.SetAllDirty();
+        }
+        else Debug.LogWarning($"[SettingsMenu] Gamma Text is NULL! Val: {val}");
+
         if (GammaController.Instance != null)
         {
             GammaController.Instance.SetGamma(val);
@@ -196,10 +333,17 @@ public class SettingsMenu : MonoBehaviour
 
     public void SetContrast(float val)
     {
-        val = Mathf.Clamp(val, -99f, 99f); // Updated limits: -99 to 99
+        Debug.Log($"[SettingsMenu] SetContrast Called. Raw Val: {val}");
+        val = Mathf.Clamp(val, -99f, 99f);
         pendingContrast = val;
-        if (contrastValueText != null) contrastValueText.text = val.ToString("F1");
-        // Use Global Gamma Controller for consistency
+
+        if (contrastValueText != null)
+        {
+            contrastValueText.text = val.ToString("F1");
+            contrastValueText.SetAllDirty();
+        }
+        else Debug.LogWarning($"[SettingsMenu] Contrast Text is NULL! Val: {val}");
+
         if (GammaController.Instance != null)
         {
             GammaController.Instance.SetContrast(val);
@@ -223,21 +367,81 @@ public class SettingsMenu : MonoBehaviour
         SetResolution(resolutions.Length - 1);
         SetGamma(0f);
         SetContrast(0f);
+        SetVolume(1f);
+        ResetSensitivity();
 
         ApplyGraphics();
         UpdateVisuals();
     }
 
+    public void ResetSensitivity()
+    {
+        SetSensitivity(50f);
+        if (sensitivitySlider != null) sensitivitySlider.value = 50f;
+    }
+
+    public void ResetVolume()
+    {
+        SetVolume(1f);
+        if (volumeSlider != null) volumeSlider.value = 1f;
+    }
+
+    public void ApplySound()
+    {
+        PlayerPrefs.Save();
+        Debug.Log("[SettingsMenu] Sound Settings Applied/Saved");
+        // Reuse graphical notification if convenient, or just log
+        Debug.Log($"[SettingsMenu] APPLIED: Master Volume {pendingVolume * 100:F0}%");
+    }
+
+    public void SetVolume(float val)
+    {
+        val = Mathf.Clamp01(val);
+        pendingVolume = val;
+        
+        // Apply to Unity Audio
+        AudioListener.volume = val;
+        
+        // Apply to FMOD (Try/Catch to be safe if FMOD is missing or bus not found)
+        try
+        {
+            FMODUnity.RuntimeManager.GetBus("bus:/").setVolume(val);
+        }
+        catch (System.Exception) 
+        { 
+             // Ignore if FMOD not present or error
+        }
+
+        PlayerPrefs.SetFloat(PREF_VOLUME, val);
+        PlayerPrefs.Save();
+
+        if (volumeValueText != null) 
+        {
+            volumeValueText.text = (val * 100f).ToString("F0") + "%";
+        }
+    }
+
     public void QuitToMenu()
     {
-        Time.timeScale = 1f;
-        AudioListener.pause = false;
-        SceneManager.LoadScene("MainMenu");
+        string currentScene = SceneManager.GetActiveScene().name;
+        
+        // If we are already in MainMenu, Quit the Application
+        if (currentScene == "MainMenu" || currentScene.Contains("Menu"))
+        {
+            Debug.Log("[SettingsMenu] Quitting Application from Main Menu");
+            Application.Quit();
+        }
+        else
+        {
+            // Otherwise go to MainMenu
+            Time.timeScale = 1f;
+            AudioListener.pause = false;
+            SceneManager.LoadScene("MainMenu");
+        }
     }
 
     public void ApplyGraphics()
     {
-        // Apply Resolution & Fullscreen
         if (resolutions != null && resolutions.Length > pendingResolutionIndex && pendingResolutionIndex >= 0)
         {
             Resolution res = resolutions[pendingResolutionIndex];
@@ -246,35 +450,33 @@ public class SettingsMenu : MonoBehaviour
             else if (pendingFullscreenMode == 2) mode = FullScreenMode.Windowed;
 
             Screen.SetResolution(res.width, res.height, mode);
+            Debug.Log($"[SettingsMenu] Applying Resolution: {res.width}x{res.height}, Mode: {mode}");
         }
         QualitySettings.SetQualityLevel(pendingQualityIndex);
 
-        // Save preferences from PENDING values (reliable)
         PlayerPrefs.SetInt(PREF_QUALITY, pendingQualityIndex);
         PlayerPrefs.SetInt(PREF_RES_INDEX, pendingResolutionIndex);
         PlayerPrefs.SetInt(PREF_FULLSCREEN, pendingFullscreenMode);
-        // Gamma/Contrast are applied real-time usually, but let's save them
-        // We use pending vars which are the source of truth
         PlayerPrefs.SetFloat(PREF_GAMMA, pendingGamma);
         PlayerPrefs.SetFloat(PREF_CONTRAST, pendingContrast);
+        // Sensitivity already saved instantly, but safe to save pending if needed
 
         PlayerPrefs.Save();
 
         Debug.Log($"[SettingsMenu] Settings Applied and Saved! Gamma={pendingGamma}, Contrast={pendingContrast}");
+
+        Debug.Log($"[SettingsMenu] APPLIED:\nRes: {resolutions[pendingResolutionIndex].width}x{resolutions[pendingResolutionIndex].height}\nMode: {(pendingFullscreenMode == 0 ? "Exclusive" : pendingFullscreenMode == 1 ? "WindowFull" : "Windowed")}\nQuality: {pendingQualityIndex}");
     }
 
     private void LoadSettings()
     {
-        // Load Defaults or Prefs
         pendingQualityIndex = PlayerPrefs.GetInt(PREF_QUALITY, QualitySettings.GetQualityLevel());
-        pendingFullscreenMode = PlayerPrefs.GetInt(PREF_FULLSCREEN, 0); // Default Exclusive
+        pendingFullscreenMode = PlayerPrefs.GetInt(PREF_FULLSCREEN, 0);
 
-        // Resolution matches current or saved
         int savedResIndex = PlayerPrefs.GetInt(PREF_RES_INDEX, -1);
         if (savedResIndex >= 0 && savedResIndex < resolutions.Length) pendingResolutionIndex = savedResIndex;
         else
         {
-            // Find current
             for (int i = 0; i < resolutions.Length; i++)
             {
                 if (resolutions[i].width == Screen.currentResolution.width && resolutions[i].height == Screen.currentResolution.height)
@@ -284,15 +486,17 @@ public class SettingsMenu : MonoBehaviour
             }
         }
 
-        pendingGamma = PlayerPrefs.GetFloat(PREF_GAMMA, 0f); // Default 0
-        pendingContrast = PlayerPrefs.GetFloat(PREF_CONTRAST, 0f); // Default 0
+        pendingGamma = PlayerPrefs.GetFloat(PREF_GAMMA, 0f);
+        pendingContrast = PlayerPrefs.GetFloat(PREF_CONTRAST, 0f);
+        pendingSensitivity = PlayerPrefs.GetFloat(PREF_SENSITIVITY, 50f);
+        pendingVolume = PlayerPrefs.GetFloat(PREF_VOLUME, 1f); // Default 1.0
 
         SetGamma(pendingGamma);
         SetContrast(pendingContrast);
+        SetSensitivity(pendingSensitivity);
+        SetVolume(pendingVolume);
 
         UpdateVisuals();
-
-        // Enforce loaded settings immediately!
         ApplyGraphics();
     }
 
@@ -302,9 +506,15 @@ public class SettingsMenu : MonoBehaviour
         if (resolutionDropdown != null) { resolutionDropdown.value = pendingResolutionIndex; resolutionDropdown.RefreshShownValue(); }
         if (fullscreenDropdown != null) { fullscreenDropdown.value = pendingFullscreenMode; fullscreenDropdown.RefreshShownValue(); }
 
-        // Gamma/Contrast already updated via SetGamma/SetContrast which update texts
-        // But need to update slider positions
         if (gammaSlider != null) gammaSlider.value = pendingGamma;
         if (contrastSlider != null) contrastSlider.value = pendingContrast;
+        if (sensitivitySlider != null) sensitivitySlider.value = pendingSensitivity;
+        if (volumeSlider != null) volumeSlider.value = pendingVolume;
     }
+
+    // Update loop injection for Volume
+    // Note: Update() method exists above, we just need to make sure we add volume to it.
+    // Since I can't easily edit Update which is higher up without huge context, I'll rely on Start wiring for now.
+    // But let's add Volume loading to LoadSettings.
+
 }
