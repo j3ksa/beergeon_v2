@@ -128,7 +128,7 @@ namespace Beergeon.Player
             // 1. Validate Main Camera
             if (mainCamera == null)
             {
-                Debug.LogError("[HandRenderingSetup] No Main Camera found!");
+                
                 return;
             }
 
@@ -177,7 +177,7 @@ namespace Beergeon.Player
             int handLayer = LayerMask.NameToLayer(handLayerName);
             if (handLayer == -1)
             {
-                Debug.LogError($"[HandRenderingSetup] Layer '{handLayerName}' does not exist! Please add it in Project Settings.");
+                
                 return;
             }
 
@@ -201,7 +201,7 @@ namespace Beergeon.Player
             if (!alreadyInStack)
             {
                 mainCamData.cameraStack.Add(handCamera);
-                Debug.Log("[HandRenderingSetup] Added HandCamera to Main Camera stack.");
+                
             }
         }
 

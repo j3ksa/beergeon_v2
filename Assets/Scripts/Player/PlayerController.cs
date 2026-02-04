@@ -29,10 +29,16 @@ public class PlayerController : MonoBehaviour
     {
         if (moveAction == null) Debug.LogError("[PlayerController] 'Move Action' is not assigned!");
         if (jumpAction == null) Debug.LogError("[PlayerController] 'Jump Action' is not assigned!");
-        
+
         if (interactAction == null)
         {
-            Debug.LogError("[PlayerController] 'Interact Action' is NOT assigned in the Inspector! Please assign it.");
+            Debug.LogWarning("[PlayerController] 'Interact Action' is NOT assigned! Creating temporary fallback on 'E' key.");
+            // Create a runtime binding for 'E'
+            var fallbackAction = new InputAction(name: "Interact", binding: "<Keyboard>/e");
+            // Wrap it in an InputActionReference (requires creating a scriptable object at runtime is hard, so we just use the raw action local workaround)
+            // Actually, we can just assign a new InputActionReference if we wanted, but let's just use a local workaround
+            // Since we rely on 'interactAction' which is a Reference, we can't easily inject a raw Action into it if the field is Reference.
+            // However, we can create a temporary method to handle fallback input in Update.
         }
         else
         {
@@ -44,7 +50,7 @@ public class PlayerController : MonoBehaviour
     {
         if (moveAction != null) moveAction.action.Enable();
         if (jumpAction != null) jumpAction.action.Enable();
-        
+
         if (interactAction != null)
         {
             interactAction.action.Enable();
@@ -56,14 +62,14 @@ public class PlayerController : MonoBehaviour
     {
         if (moveAction != null) moveAction.action.Disable();
         if (jumpAction != null) jumpAction.action.Disable();
-        
+
         if (interactAction != null)
         {
             interactAction.action.performed -= OnInteract;
             interactAction.action.Disable();
         }
     }
-    
+
     // Callback method
     private void OnInteract(InputAction.CallbackContext context)
     {
@@ -74,10 +80,10 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-             // Try to find it again just in case (e.g. added at runtime)
-             playerInteraction = GetComponent<PlayerInteraction>();
-             if (playerInteraction != null) playerInteraction.PerformInteraction();
-             else Debug.LogError("[PlayerController] PlayerInteraction component MISSING.");
+            // Try to find it again just in case (e.g. added at runtime)
+            playerInteraction = GetComponent<PlayerInteraction>();
+            if (playerInteraction != null) playerInteraction.PerformInteraction();
+            else Debug.LogError("[PlayerController] PlayerInteraction component MISSING.");
         }
     }
 
@@ -97,11 +103,31 @@ public class PlayerController : MonoBehaviour
         }
 
         // Direct Keyboard Check
-        if (Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame)
+        bool fallbackInteract = (interactAction == null && Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame);
+
+        if (fallbackInteract || (Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame))
         {
-             if (playerInteraction != null) playerInteraction.PerformInteraction();
+            if (playerInteraction != null) playerInteraction.PerformInteraction();
         }
 
+        // Mouse Scroll for Inventory
+        if (Mouse.current != null)
+        {
+            float scroll = Mouse.current.scroll.y.ReadValue();
+            if (scroll != 0 && Inventory.instance != null)
+            {
+                Inventory.instance.ScrollActiveSlot(scroll);
+            }
+        }
+        
+        // Drop Item
+        if (Keyboard.current != null && Keyboard.current.qKey.wasPressedThisFrame)
+        {
+            if (Inventory.instance != null)
+            {
+                Inventory.instance.DropActiveItem(transform.position + transform.forward + Vector3.up * 0.5f, Quaternion.identity);
+            }
+        }
         velocity.y += gravity * Time.deltaTime;
         //...
 

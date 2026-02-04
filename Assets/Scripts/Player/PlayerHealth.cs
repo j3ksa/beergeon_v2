@@ -103,7 +103,7 @@ public class PlayerHealth : MonoBehaviour
 
     private void Die()
     {
-        Debug.Log("Player Died");
+        
         OnDeath?.Invoke();
         // Handle death logic here (disable controls, show game over, etc.)
     }

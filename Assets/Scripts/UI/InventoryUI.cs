@@ -12,9 +12,20 @@ public class InventoryUI : MonoBehaviour
     void Start()
     {
         inventory = Inventory.instance;
-        inventory.OnInventoryChanged.AddListener(UpdateUI);
+        if (inventory != null)
+        {
+             inventory.OnInventoryChanged.AddListener(UpdateUI);
+             inventory.OnActiveSlotChanged.AddListener(UpdateUI);
+        }
+        else
+        {
+             Debug.LogError("InventoryUI: Inventory instance not found!");
+        }
 
         slots = itemsParent.GetComponentsInChildren<InventorySlot>();
+        Debug.Log($"InventoryUI: Found {slots.Length} slots.");
+        
+        UpdateUI();
     }
 
     void UpdateUI()
@@ -29,6 +40,8 @@ public class InventoryUI : MonoBehaviour
             {
                 slots[i].ClearSlot();
             }
+            
+            slots[i].SetActive(i == inventory.activeSlotIndex);
         }
     }
 }
