@@ -1,7 +1,6 @@
 using UnityEngine;
 using FMODUnity;
 using FMOD.Studio;
-using UnityEngine.InputSystem; // Wymagane dla Keyboard.current
 
 public class PlayerAudioController : MonoBehaviour
 {
@@ -9,44 +8,36 @@ public class PlayerAudioController : MonoBehaviour
     [SerializeField] private EventReference footstepEvent;
     [SerializeField] private EventReference jumpLandEvent;
 
-    [Header("Settings")]
+    [Header("Movement Settings")]
     [SerializeField] private CharacterController controller;
     [SerializeField] private float stepDistance = 2.5f;
+    [SerializeField] private float minVelocity = 0.5f;
 
-    // --- TUTAJ S¥ BRAKUJ¥CE ZMIENNE (DEKLARACJE) ---
     private EventInstance jumpInstance;
     private float distanceTravelled;
     private bool isGroundedPrevious = true;
+    private float lastVelocityY;
 
     void Update()
     {
-        // Sprawdzamy czy controller nie jest pusty, ¿eby unikn¹æ kolejnych b³êdów
         if (controller == null) return;
 
         HandleFootsteps();
-        HandleJumpAndLand();
+        HandleJumpAndLandDetection();
 
         isGroundedPrevious = controller.isGrounded;
+        lastVelocityY = controller.velocity.y;
     }
 
     void HandleFootsteps()
     {
-        // DODAJEMY WARUNEK: Jeœli gracz nie jest na ziemi, resetujemy licznik i wychodzimy
         if (!controller.isGrounded)
         {
             distanceTravelled = 0f;
             return;
         }
 
-        // Dodatkowo: blokujemy kroki, jeœli w tej samej klatce gracz nacisn¹³ skok
-        if (Keyboard.current.spaceKey.wasPressedThisFrame)
-        {
-            distanceTravelled = 0f;
-            return;
-        }
-
-        // Standardowa logika kroków
-        if (controller.velocity.magnitude > 0.1f)
+        if (controller.velocity.magnitude > minVelocity)
         {
             Vector3 flatVelocity = new Vector3(controller.velocity.x, 0, controller.velocity.z);
             distanceTravelled += flatVelocity.magnitude * Time.deltaTime;
@@ -59,25 +50,44 @@ public class PlayerAudioController : MonoBehaviour
         }
     }
 
-    void HandleJumpAndLand()
+    void HandleJumpAndLandDetection()
     {
-        // 1. WYBICIE (New Input System)
-        if (Keyboard.current.spaceKey.wasPressedThisFrame && controller.isGrounded)
+        // 1. WYKRYWANIE WYBICIA (Skok)
+        // Jeœli w poprzedniej klatce byliœmy na ziemi, a teraz mamy du¿¹ prêdkoœæ w górê
+        if (isGroundedPrevious && !controller.isGrounded && controller.velocity.y > 0.1f)
         {
-            jumpInstance = RuntimeManager.CreateInstance(jumpLandEvent);
-            jumpInstance.set3DAttributes(RuntimeUtils.To3DAttributes(transform.position));
-            jumpInstance.start();
+            // Debug.Log("AUDIO: Wykryto start skoku przez fizykê!");
+            StartJumpAudio();
         }
 
-        // 2. L¥DOWANIE
+        // 2. WYKRYWANIE L¥DOWANIA
         if (controller.isGrounded && !isGroundedPrevious)
         {
-            if (jumpInstance.isValid())
-            {
-                jumpInstance.set3DAttributes(RuntimeUtils.To3DAttributes(transform.position));
-                jumpInstance.keyOff();
-                jumpInstance.release();
-            }
+            // Debug.Log("AUDIO: Wykryto kontakt z ziemi¹!");
+            FinishJumpAudio();
+        }
+    }
+
+    private void StartJumpAudio()
+    {
+        if (jumpInstance.isValid())
+        {
+            jumpInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            jumpInstance.release();
+        }
+
+        jumpInstance = RuntimeManager.CreateInstance(jumpLandEvent);
+        jumpInstance.set3DAttributes(RuntimeUtils.To3DAttributes(transform.position));
+        jumpInstance.start();
+    }
+
+    private void FinishJumpAudio()
+    {
+        if (jumpInstance.isValid())
+        {
+            jumpInstance.set3DAttributes(RuntimeUtils.To3DAttributes(transform.position));
+            jumpInstance.keyOff();
+            jumpInstance.release();
         }
     }
 

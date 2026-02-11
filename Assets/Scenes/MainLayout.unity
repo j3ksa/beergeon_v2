@@ -452,6 +452,55 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1977178725686863593, guid: 81fd1b747c26e2544a52a80364f27725, type: 3}
   m_PrefabInstance: {fileID: 988309001}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &134270088 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8151939321494565537, guid: 5c1d1d71a685c1b438a74c62bf7f02dd, type: 3}
+  m_PrefabInstance: {fileID: 7138675626553597864}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &134270093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 134270088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c9ceb4cac05c5b41bc860c50aa38ba5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAudioController
+  idleSoundEvent:
+    Guid:
+      Data1: -1643602333
+      Data2: 1265459542
+      Data3: 1537215116
+      Data4: 443660003
+    Path: event:/Hmielnik_sfx/Hmielnik_Sound
+  footstepEvent:
+    Guid:
+      Data1: 18072606
+      Data2: 1336284849
+      Data3: 480303502
+      Data4: -1311506068
+    Path: event:/Hmielnik_sfx/Hmielnik_Footsteps
+  deathEvent:
+    Guid:
+      Data1: 1259170093
+      Data2: 1090274933
+      Data3: 1263997571
+      Data4: 1881731414
+    Path: event:/Hmielnik_sfx/Hmielnik_Death
+  hitEvent:
+    Guid:
+      Data1: -926451640
+      Data2: 1211966905
+      Data3: -2000348754
+      Data4: -1475974096
+    Path: event:/Hmielnik_sfx/Hmielnik_Damage
+  minWaitTime: 0
+  maxWaitTime: 10
+  stepDistance: 2.7
+  minMoveSpeed: 2
 --- !u!1001 &144651476
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1385,6 +1434,7 @@ MonoBehaviour:
     Path: event:/Character_sfx/Player_Jump_Action
   controller: {fileID: 1584861568}
   stepDistance: 2
+  minVelocity: 0.2
 --- !u!1001 &372945937
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9500,7 +9550,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8151939321494565537, guid: 5c1d1d71a685c1b438a74c62bf7f02dd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 134270093}
   m_SourcePrefab: {fileID: 100100000, guid: 5c1d1d71a685c1b438a74c62bf7f02dd, type: 3}
 --- !u!64 &7309099888494803502
 MeshCollider:

@@ -15,10 +15,10 @@ MonoBehaviour:
   Path: Assets/Audio/Metro/Build/Desktop/Metro.bank
   Name: Metro
   StudioPath: bank:/Metro
-  lastModified: 639063704118960361
+  lastModified: 639063770920743315
   FileSizes:
   - Name: Desktop
-    Value: 823456
+    Value: 1011552
   Exists: 1
 --- !u!114 &-6042511407510941523
 MonoBehaviour:
@@ -59,10 +59,10 @@ MonoBehaviour:
   Path: Assets/Audio/Metro/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639063691579522639
+  lastModified: 639063770919580162
   FileSizes:
   - Name: Desktop
-    Value: 1050
+    Value: 1280
   Exists: 1
 --- !u!114 &-4841032132357121362
 MonoBehaviour:
@@ -103,7 +103,7 @@ MonoBehaviour:
   Path: Assets/Audio/Metro/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639063691579497961
+  lastModified: 639063770919560169
   FileSizes:
   - Name: Desktop
     Value: 1254
@@ -155,6 +155,11 @@ MonoBehaviour:
   - {fileID: 6354008529021881036}
   - {fileID: 8488756291899490984}
   - {fileID: -452018717835168151}
+  - {fileID: 8176631775137189027}
+  - {fileID: 9136803086681503448}
+  - {fileID: 8177418442930556498}
+  - {fileID: 5932428250000997985}
+  - {fileID: 7468904891317588370}
   EditorParameters:
   - {fileID: -4841032132357121362}
   MasterBanks:
@@ -162,7 +167,7 @@ MonoBehaviour:
   StringsBanks:
   - {fileID: -4944223875001533550}
   cacheVersion: 131857
-  cacheTime: 639063704118960361
+  cacheTime: 639063770920743315
   SerializableEventsDict:
   - key: event:/Ambience/Amb1
     index: 0
@@ -170,6 +175,16 @@ MonoBehaviour:
     index: 1
   - key: event:/Character_sfx/Footsteps
     index: 2
+  - key: event:/Hmielnik_sfx/Hmielnik_Footsteps
+    index: 3
+  - key: event:/Hmielnik_sfx/Hmielnik_Sound
+    index: 4
+  - key: event:/Hmielnik_sfx/Hmielnik_Death
+    index: 5
+  - key: event:/Hmielnik_sfx/Hmielnik_Attack
+    index: 6
+  - key: event:/Hmielnik_sfx/Hmielnik_Damage
+    index: 7
 --- !u!114 &5392454862294524410
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,6 +209,33 @@ MonoBehaviour:
   IsGlobal: 0
   Labels: []
   Exists: 1
+--- !u!114 &5932428250000997985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Hmielnik_sfx/Hmielnik_Attack
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Hmielnik_sfx/Hmielnik_Attack
+  Guid:
+    Data1: -1706590049
+    Data2: 1187044963
+    Data3: 679172787
+    Data4: 1401752606
+  Banks:
+  - {fileID: -7109948713492473829}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1600
 --- !u!114 &6354008529021881036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -222,6 +264,87 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 59600
+--- !u!114 &7468904891317588370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Hmielnik_sfx/Hmielnik_Damage
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Hmielnik_sfx/Hmielnik_Damage
+  Guid:
+    Data1: -926451640
+    Data2: 1211966905
+    Data3: -2000348754
+    Data4: -1475974096
+  Banks:
+  - {fileID: -7109948713492473829}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 672
+--- !u!114 &8176631775137189027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Hmielnik_sfx/Hmielnik_Footsteps
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Hmielnik_sfx/Hmielnik_Footsteps
+  Guid:
+    Data1: 18072606
+    Data2: 1336284849
+    Data3: 480303502
+    Data4: -1311506068
+  Banks:
+  - {fileID: -7109948713492473829}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 550
+--- !u!114 &8177418442930556498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Hmielnik_sfx/Hmielnik_Death
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Hmielnik_sfx/Hmielnik_Death
+  Guid:
+    Data1: 1259170093
+    Data2: 1090274933
+    Data3: 1263997571
+    Data4: 1881731414
+  Banks:
+  - {fileID: -7109948713492473829}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1178
 --- !u!114 &8488756291899490984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -250,3 +373,30 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 1276
+--- !u!114 &9136803086681503448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Hmielnik_sfx/Hmielnik_Sound
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Hmielnik_sfx/Hmielnik_Sound
+  Guid:
+    Data1: -1643602333
+    Data2: 1265459542
+    Data3: 1537215116
+    Data4: 443660003
+  Banks:
+  - {fileID: -7109948713492473829}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 3500
