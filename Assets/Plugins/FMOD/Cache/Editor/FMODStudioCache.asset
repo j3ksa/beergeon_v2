@@ -15,10 +15,10 @@ MonoBehaviour:
   Path: Assets/Audio/Metro/Build/Desktop/Metro.bank
   Name: Metro
   StudioPath: bank:/Metro
-  lastModified: 639063537557910979
+  lastModified: 639063704118960361
   FileSizes:
   - Name: Desktop
-    Value: 777248
+    Value: 823456
   Exists: 1
 --- !u!114 &-6042511407510941523
 MonoBehaviour:
@@ -59,10 +59,10 @@ MonoBehaviour:
   Path: Assets/Audio/Metro/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639063537557830960
+  lastModified: 639063691579522639
   FileSizes:
   - Name: Desktop
-    Value: 874
+    Value: 1050
   Exists: 1
 --- !u!114 &-4841032132357121362
 MonoBehaviour:
@@ -103,11 +103,38 @@ MonoBehaviour:
   Path: Assets/Audio/Metro/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639063537557820960
+  lastModified: 639063691579497961
   FileSizes:
   - Name: Desktop
     Value: 1254
   Exists: 1
+--- !u!114 &-452018717835168151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Character_sfx/Footsteps
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Character_sfx/Footsteps
+  Guid:
+    Data1: -1562987046
+    Data2: 1182493618
+    Data3: 51735985
+    Data4: -734153181
+  Banks:
+  - {fileID: -7109948713492473829}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 550
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,6 +153,8 @@ MonoBehaviour:
   - {fileID: -7109948713492473829}
   EditorEvents:
   - {fileID: 6354008529021881036}
+  - {fileID: 8488756291899490984}
+  - {fileID: -452018717835168151}
   EditorParameters:
   - {fileID: -4841032132357121362}
   MasterBanks:
@@ -133,10 +162,38 @@ MonoBehaviour:
   StringsBanks:
   - {fileID: -4944223875001533550}
   cacheVersion: 131857
-  cacheTime: 639063537557910979
+  cacheTime: 639063704118960361
   SerializableEventsDict:
   - key: event:/Ambience/Amb1
     index: 0
+  - key: event:/Character_sfx/Player_Jump_Action
+    index: 1
+  - key: event:/Character_sfx/Footsteps
+    index: 2
+--- !u!114 &5392454862294524410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Player_Jump_Action/InAir
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorParamRef
+  Name: InAir
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 671074365
+    data2: 3150658451
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &6354008529021881036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,3 +222,31 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 59600
+--- !u!114 &8488756291899490984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Character_sfx/Player_Jump_Action
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Character_sfx/Player_Jump_Action
+  Guid:
+    Data1: 1714090073
+    Data2: 1321407901
+    Data3: 707690147
+    Data4: -376597153
+  Banks:
+  - {fileID: -7109948713492473829}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 0
+  Parameters:
+  - {fileID: 5392454862294524410}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1276

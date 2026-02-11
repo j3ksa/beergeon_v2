@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="ParameterPreset" id="{a9e23f24-efe8-4443-99dc-98659be04518}">
+		<property name="name">
+			<value>InAir</value>
+		</property>
+		<relationship name="folder">
+			<destination>{b4ec1159-a086-46bf-b951-17124c0d5f02}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{8cb7235a-fc2c-4576-a20e-230f8c1fa328}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{8cb7235a-fc2c-4576-a20e-230f8c1fa328}">
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+	</object>
+</objects>
