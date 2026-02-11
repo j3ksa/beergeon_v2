@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="EventFolder" id="{83551650-c968-41d6-abac-0d233960f7be}">
+		<property name="name">
+			<value>Hmielnik_sfx</value>
+		</property>
+		<relationship name="folder">
+			<destination>{87a4d76f-2e01-4d16-8245-c182b718048c}</destination>
+		</relationship>
+	</object>
+</objects>
