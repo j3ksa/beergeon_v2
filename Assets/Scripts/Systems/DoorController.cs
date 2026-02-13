@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using FMODUnity; 
 
 public class DoorController : MonoBehaviour, IInteractable
 {
@@ -7,6 +8,10 @@ public class DoorController : MonoBehaviour, IInteractable
     [SerializeField] private float openAngle = 90f;
     [SerializeField] private float animationSpeed = 2f;
     [SerializeField] private bool isOpen = false;
+
+    [Header("FMOD Audio")] 
+    [SerializeField] private EventReference doorCreakEvent;
+    [SerializeField] private EventReference doorShutEvent;
 
     private Quaternion closedRotation;
     private Quaternion openRotation;
@@ -22,8 +27,10 @@ public class DoorController : MonoBehaviour, IInteractable
 
     public bool Interact(GameObject interactor)
     {
-        // Allow interruption
         isOpen = !isOpen;
+
+        
+        RuntimeManager.PlayOneShot(doorCreakEvent, transform.position);
 
         if (currentAnimationRoutine != null)
         {
@@ -36,13 +43,20 @@ public class DoorController : MonoBehaviour, IInteractable
 
     private IEnumerator AnimateDoor(Quaternion targetRotation)
     {
-        while (Quaternion.Angle(transform.localRotation, targetRotation) > 0.1f)
+        while (Quaternion.Angle(transform.localRotation, targetRotation) > 5.0f)
         {
             transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, Time.deltaTime * animationSpeed);
             yield return null;
         }
 
         transform.localRotation = targetRotation;
+
+       
+        if (!isOpen)
+        {
+            RuntimeManager.PlayOneShot(doorShutEvent, transform.position);
+        }
+
         currentAnimationRoutine = null;
     }
 }

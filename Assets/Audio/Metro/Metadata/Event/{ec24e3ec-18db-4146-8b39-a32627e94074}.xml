@@ -408,6 +408,9 @@
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{f4ee059e-0e1c-426c-977e-74bcf735da8e}">
+		<property name="volume">
+			<value>-26</value>
+		</property>
 		<property name="name">
 			<value>low hum</value>
 		</property>
@@ -646,6 +649,9 @@
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{a6529781-9270-4ca7-b3fd-37cdd2bc8569}">
+		<property name="volume">
+			<value>-11</value>
+		</property>
 		<property name="name">
 			<value>wind</value>
 		</property>
@@ -998,6 +1004,7 @@
 			<destination>{b7b45a3f-22f9-400e-8443-20336a6e7f72}</destination>
 			<destination>{0453b732-2ad1-41fc-97f6-3ae5107d5bb3}</destination>
 			<destination>{ad22d52a-2a32-456b-8f98-a9df45f3ae38}</destination>
+			<destination>{cf01ff22-0420-4a77-95e4-4e286a26381b}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{1c63dd92-ec9e-47d5-bddd-ff6e79bab0c9}">
@@ -1204,6 +1211,7 @@
 			<destination>{ca41c1f6-3d3c-4281-a500-dfdc66f2949c}</destination>
 			<destination>{6d455af0-035c-4c36-82ab-9f478ef14774}</destination>
 			<destination>{10d4f331-2aa8-45d4-8edb-44b762f16ad5}</destination>
+			<destination>{a6989f49-079b-4b84-b68e-f06cd3e532fa}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{3ec20ac5-8156-4edf-a3ac-65c785d8b8ea}" />
@@ -1728,6 +1736,11 @@
 			<value>0.100000001</value>
 		</property>
 	</object>
+	<object class="LowpassEffect" id="{cf01ff22-0420-4a77-95e4-4e286a26381b}">
+		<property name="cutoff">
+			<value>720</value>
+		</property>
+	</object>
 	<object class="AutomationPoint" id="{1034438c-0cee-45a0-b801-aa58831f0363}">
 		<property name="position">
 			<value>0</value>
@@ -2170,6 +2183,11 @@
 		</property>
 		<property name="wetLevel">
 			<value>-14.5</value>
+		</property>
+	</object>
+	<object class="LowpassEffect" id="{a6989f49-079b-4b84-b68e-f06cd3e532fa}">
+		<property name="cutoff">
+			<value>2100</value>
 		</property>
 	</object>
 	<object class="MixerBusFader" id="{2b99b9b9-20e7-468d-a046-8c3b53a70897}" />
