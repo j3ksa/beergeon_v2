@@ -271,11 +271,13 @@ public class PlayerHand : MonoBehaviour
             IDamageable damageable = hit.collider.GetComponent<IDamageable>();
             if (damageable != null)
             {
-                int damage = playerStats != null ? playerStats.GetDamage() : 1;
+                int baseDamage = 10; // Default punch damage
                 if (currentItem != null && currentItem is WeaponItem w)
                 {
-                    damage = w.damage;
+                    baseDamage = w.damage;
                 }
+                
+                int damage = playerStats != null ? playerStats.GetDamage(baseDamage) : baseDamage;
                 
                 damageable.TakeDamage(damage);
             }

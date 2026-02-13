@@ -218,6 +218,7 @@ GameObject:
   - component: {fileID: 7356056697243976132}
   - component: {fileID: 3656839768404810362}
   - component: {fileID: 5594232880164245307}
+  - component: {fileID: 8526755895895836787}
   m_Layer: 0
   m_Name: Visuals
   m_TagString: Untagged
@@ -282,6 +283,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!210 &8526755895895836787
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3089843583522186227}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
 --- !u!1 &3986049316081516435
 GameObject:
   m_ObjectHideFlags: 0
@@ -850,6 +863,7 @@ MonoBehaviour:
       m_Calls: []
   healthPotionPrefab: {fileID: 1302892995345684908, guid: ff1c8791ed174c847bfb4e4b3a188fbe, type: 3}
   dropChance: 0.3
+  xpReward: 25
 --- !u!65 &7307877119450744128
 BoxCollider:
   m_ObjectHideFlags: 0

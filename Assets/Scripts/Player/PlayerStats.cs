@@ -21,10 +21,10 @@ public class PlayerStats : MonoBehaviour
     public int Experience => experience;
     public int Level => level;
 
-    public int GetDamage()
+    public int GetDamage(int baseDamage)
     {
-        // Simple formula: 1 Strength = 1 Base Damage
-        return strength;
+        // Formula: Base Damage + (Strength * 0.1)
+        return Mathf.RoundToInt(baseDamage + (strength * 0.1f));
     }
 
     public int GetMaxHealth()
@@ -46,8 +46,8 @@ public class PlayerStats : MonoBehaviour
         {
             experience -= requiredXp;
             level++;
-            strength += 2; // Stat gain per level
-            vitality += 2; // Stat gain per level
+            strength += 1; // Stat gain per level
+            vitality += 1; // Stat gain per level
             OnLevelUp?.Invoke();
             OnStatsChanged?.Invoke();
             requiredXp = GetXpForNextLevel();

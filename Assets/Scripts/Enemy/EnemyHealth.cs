@@ -12,6 +12,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     [Header("Drops")]
     [SerializeField] private GameObject healthPotionPrefab;
     [SerializeField] private float dropChance = 0.3f;
+    [SerializeField] private int xpReward = 25;
 
     private SpriteRenderer[] renderers;
     private Color[] originalColors;
@@ -80,9 +81,17 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         OnDeath?.Invoke();
         
         // Drop Chance
+        // Create explicit block for clarity
         if (healthPotionPrefab != null && Random.value <= dropChance)
         {
             Instantiate(healthPotionPrefab, transform.position, Quaternion.identity);
+        }
+
+        // Grant XP
+        PlayerStats playerStats = FindObjectOfType<PlayerStats>();
+        if (playerStats != null)
+        {
+            playerStats.GainExperience(xpReward);
         }
 
         // Simple death handling: Destroy object
