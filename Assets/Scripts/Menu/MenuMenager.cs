@@ -188,6 +188,7 @@ public class MenuManager : MonoBehaviour
 
     public void Play()
     {
+        Inventory.ResetGlobal();
         SceneManager.LoadScene("MainLayout");
     }
 

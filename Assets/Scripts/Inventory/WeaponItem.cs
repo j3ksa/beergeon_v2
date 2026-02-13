@@ -11,9 +11,8 @@ public class WeaponItem : EquippableItem
 
     public override void Use(PlayerController player, PlayerHand hand)
     {
-        // Delegate attack logic back to PlayerHand or perform here
-        // For now, PlayerHand has the raycast logic, so we might want to expose a method there or move it to PlayerInteraction?
-        // To keep it clean, let's keep physical attack logic in components but define stats here.
-        
+        // Perform attack using hand's raycast logic for now
+        hand.PerformRaycast();
+        Debug.Log($"Used weapon: {itemName}");
     }
 }

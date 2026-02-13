@@ -15,11 +15,12 @@ public class InventorySlot : MonoBehaviour
         if (icon != null)
         {
             icon.sprite = item.icon;
-            icon.enabled = true;
+            icon.gameObject.SetActive(true);
+            icon.enabled = true; // Just in case
         }
         else
         {
-            
+            Debug.LogError("InventorySlot: Icon Image is not assigned in the Inspector!", this);
         }
     }
 
@@ -27,8 +28,11 @@ public class InventorySlot : MonoBehaviour
     {
         item = null;
 
-        icon.sprite = null;
-        icon.enabled = false;
+        if (icon != null)
+        {
+            icon.sprite = null;
+            icon.gameObject.SetActive(false);
+        }
     }
 
     public void SetActive(bool isActive)

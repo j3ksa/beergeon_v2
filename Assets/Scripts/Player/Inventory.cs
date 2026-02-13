@@ -6,6 +6,11 @@ public class Inventory : MonoBehaviour
 {
     public static Inventory instance;
 
+    // Static persistence data
+    private static List<Item> savedItems = new List<Item>();
+    private static int savedActiveSlot = 0;
+    private static bool hasSavedData = false;
+
     [Header("Configuration")]
     [SerializeField] private int space = 9;
     public List<Item> items = new List<Item>();
@@ -17,10 +22,47 @@ public class Inventory : MonoBehaviour
     {
         if (instance != null)
         {
-            
+            Destroy(gameObject); // Standard singleton pattern for duplicate check
             return;
         }
         instance = this;
+        
+        LoadFromGlobal();
+    }
+
+    private void OnDestroy()
+    {
+        if (instance == this)
+        {
+            SaveToGlobal();
+        }
+    }
+
+    // Creating a copy of the list to avoid reference issues if objects are destroyed
+    private void SaveToGlobal()
+    {
+        savedItems = new List<Item>(items);
+        savedActiveSlot = activeSlotIndex;
+        hasSavedData = true;
+    }
+
+    private void LoadFromGlobal()
+    {
+        if (hasSavedData)
+        {
+            items = new List<Item>(savedItems);
+            activeSlotIndex = savedActiveSlot;
+            // Notify UI roughly a frame later or immediately? 
+            // In Awake, listeners aren't subscribed yet normally (UI subscribes in Start).
+            // So data is ready for them when they Start.
+        }
+    }
+
+    public static void ResetGlobal()
+    {
+        savedItems.Clear();
+        savedActiveSlot = 0;
+        hasSavedData = false;
     }
 
     [Header("Active Slot")]

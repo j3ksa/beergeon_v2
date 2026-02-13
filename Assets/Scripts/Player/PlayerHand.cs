@@ -30,6 +30,9 @@ public class PlayerHand : MonoBehaviour
     private bool isAttacking = false;
     private float lastAttackTime = 0;
 
+    // Current Item
+    private EquippableItem currentItem;
+
     private void Start()
     {
         if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
@@ -37,11 +40,6 @@ public class PlayerHand : MonoBehaviour
         
         defaultYPos = transform.localPosition.y;
         
-        if (idleSprite != null)
-        {
-            spriteRenderer.sprite = idleSprite;
-        }
-
         // Try to find stats if not assigned
         if (playerStats == null)
         {
@@ -52,6 +50,23 @@ public class PlayerHand : MonoBehaviour
         if (characterController == null)
         {
             characterController = GetComponentInParent<CharacterController>();
+        }
+
+        // Initialize with generic idle
+        if (idleSprite != null)
+        {
+            spriteRenderer.sprite = idleSprite;
+        }
+
+        // Subscribe to Inventory
+        if (Inventory.instance != null)
+        {
+            Inventory.instance.OnActiveSlotChanged.AddListener(UpdateHandVisuals);
+            UpdateHandVisuals(); // Initial check
+        }
+        else
+        {
+            Debug.LogWarning("PlayerHand: Inventory instance not found.");
         }
     }
 
@@ -78,6 +93,33 @@ public class PlayerHand : MonoBehaviour
         HandleBobbing();
     }
 
+    public void UpdateHandVisuals()
+    {
+        if (Inventory.instance == null) return;
+
+        Item item = Inventory.instance.GetActiveItem();
+        if (item is EquippableItem equippable)
+        {
+            currentItem = equippable;
+            if (equippable.heldSprite != null)
+            {
+                spriteRenderer.sprite = equippable.heldSprite;
+            }
+            else
+            {
+                spriteRenderer.sprite = null; // Or keep idle? Usually held sprite overrides.
+            }
+        }
+        else
+        {
+            currentItem = null;
+            if (idleSprite != null)
+            {
+                spriteRenderer.sprite = idleSprite;
+            }
+        }
+    }
+
     private void HandleBobbing()
     {
         if (isAttacking) return;
@@ -102,6 +144,7 @@ public class PlayerHand : MonoBehaviour
 
         if (Time.time < lastAttackTime + attackCooldown || isAttacking) return;
 
+        // Visual feedback for attack
         StartCoroutine(AttackRoutine());
     }
 
@@ -110,29 +153,36 @@ public class PlayerHand : MonoBehaviour
         isAttacking = true;
         lastAttackTime = Time.time;
 
-        // Visual change
-        if (attackSprite != null)
+        // Attack Visuals
+        if (currentItem != null && currentItem is WeaponItem weapon && weapon.attackSprite != null)
+        {
+            spriteRenderer.sprite = weapon.attackSprite;
+        }
+        else if (attackSprite != null && currentItem == null) // Default fist attack
         {
             spriteRenderer.sprite = attackSprite;
         }
         
-        Debug.Log("Attacking!");
-
-        // Logic
-        PerformRaycast();
+        // Use Item Logic
+        if (currentItem != null)
+        {
+            currentItem.Use(GetComponentInParent<PlayerController>(), this);
+        }
+        else
+        {
+             Debug.Log("Punching!");
+             PerformRaycast(); // Default Punch
+        }
 
         yield return new WaitForSeconds(attackDuration);
 
-        // Reset visual
-        if (idleSprite != null)
-        {
-            spriteRenderer.sprite = idleSprite;
-        }
+        // Reset Visuals
+        UpdateHandVisuals();
         
         isAttacking = false;
     }
 
-    private void PerformRaycast()
+    public void PerformRaycast()
     {
         if (playerCamera == null) return;
 
@@ -141,8 +191,15 @@ public class PlayerHand : MonoBehaviour
 
         // Use safe default for layers if nothing selected
         int layerMask = hitLayers.value == 0 ? ~0 : hitLayers.value;
+        
+        // range depends on item? For now usage defaults to this method for punches/weapons
+        float range = attackRange;
+        if (currentItem != null && currentItem is WeaponItem weapon)
+        {
+            range = weapon.range;
+        }
 
-        if (Physics.Raycast(ray, out hit, attackRange, layerMask))
+        if (Physics.Raycast(ray, out hit, range, layerMask))
         {
             Debug.Log($"Hit: {hit.collider.name}");
             
@@ -150,6 +207,11 @@ public class PlayerHand : MonoBehaviour
             if (damageable != null)
             {
                 int damage = playerStats != null ? playerStats.GetDamage() : 1;
+                if (currentItem != null && currentItem is WeaponItem w)
+                {
+                    damage = w.damage;
+                }
+                
                 damageable.TakeDamage(damage);
             }
             
