@@ -39,6 +39,7 @@ Transform:
   m_Children:
   - {fileID: 1307461100885899686}
   - {fileID: 6585372861992623982}
+  - {fileID: 8874620985256556283}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8108493252435795031
@@ -154,7 +155,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
   maxHealth: 100
   currentHealth: 100
-  decayRate: 1
+  decayRate: 0.1
   isDecaying: 1
   OnHealthChanged:
     m_PersistentCalls:
@@ -219,10 +220,74 @@ MonoBehaviour:
   handLayerName: PlayerHand
   handFOV: 60
   targetSpriteHeight: 1
-  spriteSettings: []
+  spriteSettings:
+  - sprite: {fileID: -3402172223355117456, guid: 9762be51fd5aa784494a2d59ceff4f01, type: 3}
+    rotationOffset: {x: 60, y: 30, z: 40}
+    positionOffset: {x: -0.15, y: 0.15, z: 0}
   mainCamera: {fileID: 3174864779413090353}
   handCamera: {fileID: 0}
   handObject: {fileID: 8107650024884335959}
+--- !u!1 &3316239086682728661
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8874620985256556283}
+  - component: {fileID: 3267419227325680327}
+  m_Layer: 0
+  m_Name: PlayerAudioController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8874620985256556283
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3316239086682728661}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8016699212694082529}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3267419227325680327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3316239086682728661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d17de412ff156f48a13919d37a5f20a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAudioController
+  footstepEvent:
+    Guid:
+      Data1: -1444424319
+      Data2: 1323610656
+      Data3: -483946053
+      Data4: -644038463
+    Path: event:/Sfx/Footsteps
+  jumpLandEvent:
+    Guid:
+      Data1: -1418567980
+      Data2: 1327233549
+      Data3: 773795971
+      Data4: 1860870159
+    Path: event:/Sfx/Fist_Swing
+  controller: {fileID: 4950233710037556081}
+  stepDistance: 2
+  minVelocity: 0.2
 --- !u!1 &3424177854648852092
 GameObject:
   m_ObjectHideFlags: 0
@@ -472,7 +537,7 @@ Transform:
   m_GameObject: {fileID: 8107650024884335959}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5, y: -0.5, z: 1}
+  m_LocalPosition: {x: 0.7, y: -0.5, z: 1}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -552,7 +617,7 @@ MonoBehaviour:
   playerStats: {fileID: 6647264478732751504}
   playerCamera: {fileID: 0}
   idleSprite: {fileID: 21300000, guid: 6fa47f245170e964683370525f6fc48c, type: 3}
-  attackSprite: {fileID: -6532440962066638028, guid: f4993f0d0c92bd5428caec8e025e80a2, type: 3}
+  attackSprite: {fileID: -3402172223355117456, guid: 9762be51fd5aa784494a2d59ceff4f01, type: 3}
   attackRange: 2
   attackDuration: 0.2
   attackCooldown: 0.5

@@ -8,16 +8,53 @@ public class EnemyHealth : MonoBehaviour, IDamageable
 
     public UnityEvent OnDeath;
     public UnityEvent<int> OnDamageTaken;
-    private EnemyAudioController enemyAudio;
 
-    void Start()
-    {
-        enemyAudio = GetComponent<EnemyAudioController>();
-    }
+    [Header("Drops")]
+    [SerializeField] private GameObject healthPotionPrefab;
+    [SerializeField] private float dropChance = 0.3f;
+
+    private SpriteRenderer[] renderers;
+    private Color[] originalColors;
+    private float flashEndTime;
+    private bool isFlashing = false;
 
     private void Awake()
     {
         currentHealth = maxHealth;
+        renderers = GetComponentsInChildren<SpriteRenderer>();
+        
+        if (renderers != null && renderers.Length > 0)
+        {
+            originalColors = new Color[renderers.Length];
+            for (int i = 0; i < renderers.Length; i++)
+            {
+                originalColors[i] = renderers[i].color;
+            }
+        }
+    }
+
+    private void LateUpdate()
+    {
+        if (renderers == null || renderers.Length == 0) return;
+
+        // Check if we are currently in the flash duration
+        if (Time.time < flashEndTime)
+        {
+            isFlashing = true;
+            for (int i = 0; i < renderers.Length; i++)
+            {
+                if (renderers[i] != null) renderers[i].color = Color.red;
+            }
+        }
+        else if (isFlashing)
+        {
+            // We were flashing, but time is up. Restore colors once.
+            isFlashing = false;
+            for (int i = 0; i < renderers.Length; i++)
+            {
+                if (renderers[i] != null) renderers[i].color = originalColors[i];
+            }
+        }
     }
 
     public void TakeDamage(int damage)
@@ -25,16 +62,11 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         if (currentHealth <= 0) return;
 
         currentHealth -= damage;
-
-        if (currentHealth > 0 && enemyAudio != null)
-        {
-            enemyAudio.PlayHitSound();
-        }
-
+        Debug.Log($"{gameObject.name} took {damage} damage. Current Health: {currentHealth}");
         OnDamageTaken?.Invoke(damage);
 
-        // Simple Hit Flash Effect
-        StartCoroutine(FlashColor());
+        // Trigger Flash
+        flashEndTime = Time.time + 0.1f;
 
         if (currentHealth <= 0)
         {
@@ -44,32 +76,17 @@ public class EnemyHealth : MonoBehaviour, IDamageable
 
     private void Die()
     {
-        // 1. DŸwiêk musi byæ PIERWSZY
-        if (enemyAudio != null)
-        {
-            enemyAudio.PlayDeathSound();
-        }
-
+        Debug.Log($"{gameObject.name} died.");
         OnDeath?.Invoke();
-
-        // 2. Zamiast natychmiastowego Destroy(gameObject), dajemy mu 0.1s zw³oki
-        // To wystarczy, by FMOD odebra³ sygna³ PlayOneShot
-        Destroy(gameObject, 0.1f);
-
-        // Opcjonalnie: wy³¹czamy grafiki, ¿eby nie by³o widaæ "¿ywego" trupa przez te 0.1s
-        var renderer = GetComponentInChildren<Renderer>();
-        if (renderer != null) renderer.enabled = false;
-    }
-
-    private System.Collections.IEnumerator FlashColor()
-    {
-        SpriteRenderer sr = GetComponentInChildren<SpriteRenderer>();
-        if (sr != null)
+        
+        // Drop Chance
+        if (healthPotionPrefab != null && Random.value <= dropChance)
         {
-            Color original = sr.color;
-            sr.color = Color.red;
-            yield return new WaitForSeconds(0.1f);
-            sr.color = original;
+            Instantiate(healthPotionPrefab, transform.position, Quaternion.identity);
         }
+
+        // Simple death handling: Destroy object
+        // ideally we might play an animation or spawn a corpse
+        Destroy(gameObject);
     }
 }

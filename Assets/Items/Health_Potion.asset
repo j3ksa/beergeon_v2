@@ -18,6 +18,9 @@ MonoBehaviour:
   description: Health potion
   heldSprite: {fileID: 21300000, guid: 6f411cae55c173e459148dff07306610, type: 3}
   cooldown: 0.5
+  useItemRotation: 1
+  rotationEuler: {x: 0, y: 0, z: 45}
+  rotationSpeed: 5
   potionType: 0
   amount: 50
   duration: 0

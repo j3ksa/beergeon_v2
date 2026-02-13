@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6426742367583380305}
   - component: {fileID: 4880095310451839552}
   - component: {fileID: 7197689140851551013}
+  - component: {fileID: -868191333644512031}
   m_Layer: 0
   m_Name: Pickup_Health
   m_TagString: Untagged
@@ -127,3 +128,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemPickup
   item: {fileID: 11400000, guid: 91dba643f3fc7aa439dbd814749a69ea, type: 2}
   spriteRenderer: {fileID: 6426742367583380305}
+--- !u!114 &-868191333644512031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1302892995345684908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57ec8edf86f732e4a82109c84b98eb09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Billboard

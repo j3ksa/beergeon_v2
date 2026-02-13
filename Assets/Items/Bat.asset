@@ -17,7 +17,10 @@ MonoBehaviour:
   pickupPrefab: {fileID: 4102785500099672838, guid: f727316bafe887c4a94d01131428cdf0, type: 3}
   description: Bat weapon
   heldSprite: {fileID: -6532440962066638028, guid: f4993f0d0c92bd5428caec8e025e80a2, type: 3}
-  cooldown: 0.5
+  cooldown: 0.4
+  useItemRotation: 1
+  rotationEuler: {x: 90, y: 80, z: 40}
+  rotationSpeed: 10
   damage: 35
   range: 4
   attackSprite: {fileID: 0}

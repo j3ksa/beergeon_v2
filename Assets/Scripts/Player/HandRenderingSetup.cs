@@ -45,6 +45,9 @@ namespace Beergeon.Player
         private SpriteRenderer handRenderer;
         private Sprite lastSprite;
         private Vector3 initialLocalPosition;
+        
+        // Public property to allow other scripts (like PlayerHand) to apply temporary rotations
+        [HideInInspector] public Quaternion animatedRotation = Quaternion.identity;
 
         private void Start()
         {
@@ -95,7 +98,7 @@ namespace Beergeon.Player
             }
 
             // Apply rotation
-            handObject.transform.localRotation = Quaternion.Euler(targetRotation);
+            handObject.transform.localRotation = Quaternion.Euler(targetRotation) * animatedRotation;
             
             // Apply position (Bobbing in PlayerHand might override this if it modifies localPosition directly, 
             // but for now we apply the offset relative to the initial position we found).

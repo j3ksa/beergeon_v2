@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Beergeon.Player; // Required for HandRenderingSetup
 
 public class PlayerHand : MonoBehaviour
 {
@@ -24,6 +25,9 @@ public class PlayerHand : MonoBehaviour
 
     [Header("Input")]
     [SerializeField] private InputActionReference attackAction;
+    
+    // Reference to HandRenderingSetup to control rotation without conflict
+    private HandRenderingSetup handRenderingSetup;
 
     private float defaultYPos;
     private float timer = 0;
@@ -37,6 +41,11 @@ public class PlayerHand : MonoBehaviour
     {
         if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
         if (playerCamera == null) playerCamera =  Camera.main;
+        
+        // Try to find HandRenderingSetup
+        handRenderingSetup = GetComponentInParent<HandRenderingSetup>();
+        if (handRenderingSetup == null) handRenderingSetup = GetComponent<HandRenderingSetup>();
+        // If still null, maybe on child? but usually on parent or self.
         
         defaultYPos = transform.localPosition.y;
         
@@ -95,7 +104,7 @@ public class PlayerHand : MonoBehaviour
 
     public void UpdateHandVisuals()
     {
-        if (Inventory.instance == null) return;
+        if (Inventory.instance == null || isAttacking) return;
 
         Item item = Inventory.instance.GetActiveItem();
         if (item is EquippableItem equippable)
@@ -174,12 +183,68 @@ public class PlayerHand : MonoBehaviour
              PerformRaycast(); // Default Punch
         }
 
-        yield return new WaitForSeconds(attackDuration);
+        // Rotation Animation
+        bool useRotation = false;
+        float rotSpeed = 10f;
+
+        if (currentItem != null && currentItem.useItemRotation)
+        {
+            useRotation = true;
+            rotSpeed = currentItem.rotationSpeed;
+        }
+
+        if (useRotation && currentItem != null)
+        {
+            Quaternion animStart = Quaternion.identity;
+            Quaternion animTarget = Quaternion.Euler(currentItem.rotationEuler);
+            Quaternion initialLocalRot = transform.localRotation; // Fallback baseline
+
+            float t = 0;
+            while (t < 1)
+            {
+                t += Time.deltaTime * rotSpeed;
+                Quaternion currentAnimRot = Quaternion.Slerp(animStart, animTarget, t);
+                
+                if (handRenderingSetup != null) 
+                {
+                    handRenderingSetup.animatedRotation = currentAnimRot;
+                }
+                else 
+                {
+                    transform.localRotation = initialLocalRot * currentAnimRot;
+                }
+                yield return null;
+            }
+
+            t = 0;
+            while (t < 1)
+            {
+                t += Time.deltaTime * rotSpeed;
+                Quaternion currentAnimRot = Quaternion.Slerp(animTarget, animStart, t);
+                 
+                if (handRenderingSetup != null) 
+                {
+                    handRenderingSetup.animatedRotation = currentAnimRot;
+                }
+                else 
+                {
+                    transform.localRotation = initialLocalRot * currentAnimRot;
+                }
+                yield return null;
+            }
+            
+            // Final Reset
+            if (handRenderingSetup != null) handRenderingSetup.animatedRotation = Quaternion.identity;
+            else transform.localRotation = initialLocalRot;
+        }
+        else
+        {
+             yield return new WaitForSeconds(attackDuration);
+        }
 
         // Reset Visuals
-        UpdateHandVisuals();
-        
         isAttacking = false;
+        UpdateHandVisuals();
     }
 
     public void PerformRaycast()
