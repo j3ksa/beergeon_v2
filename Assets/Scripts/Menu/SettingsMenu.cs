@@ -103,8 +103,9 @@ public class SettingsMenu : MonoBehaviour
              volumeSlider.onValueChanged.AddListener(SetVolume);
         }
 
-        // --- BUTTONS SMART WIRING ---
-        var allButtons = FindObjectsByType<Button>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        // --- BUTTONS SMART WIRING (LOCAL ONLY) ---
+        // CHANGED: Use GetComponentsInChildren instead of FindObjectsByType to avoid hijacking other menus
+        var allButtons = GetComponentsInChildren<Button>(true);
         
         foreach(var btn in allButtons)
         {

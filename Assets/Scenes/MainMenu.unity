@@ -2559,7 +2559,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 976085744286483943}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.625
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -7541,7 +7541,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3765444384884319845}
+      - m_Target: {fileID: 3765444385227370411, guid: bf3406a6163d7224fbe5ef386e7fd6c3, type: 3}
         m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
         m_MethodName: QuitGame
         m_Mode: 1

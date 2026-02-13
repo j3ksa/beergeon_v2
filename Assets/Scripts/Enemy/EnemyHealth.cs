@@ -88,7 +88,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         }
 
         // Grant XP
-        PlayerStats playerStats = FindObjectOfType<PlayerStats>();
+        PlayerStats playerStats = FindFirstObjectByType<PlayerStats>();
         if (playerStats != null)
         {
             playerStats.GainExperience(xpReward);
