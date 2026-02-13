@@ -8,6 +8,12 @@ public class EnemyHealth : MonoBehaviour, IDamageable
 
     public UnityEvent OnDeath;
     public UnityEvent<int> OnDamageTaken;
+    private EnemyAudioController enemyAudio;
+
+    void Start()
+    {
+        enemyAudio = GetComponent<EnemyAudioController>();
+    }
 
     private void Awake()
     {
@@ -19,7 +25,12 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         if (currentHealth <= 0) return;
 
         currentHealth -= damage;
-        
+
+        if (currentHealth > 0 && enemyAudio != null)
+        {
+            enemyAudio.PlayHitSound();
+        }
+
         OnDamageTaken?.Invoke(damage);
 
         // Simple Hit Flash Effect
@@ -33,12 +44,21 @@ public class EnemyHealth : MonoBehaviour, IDamageable
 
     private void Die()
     {
-        
+        // 1. DŸwiêk musi byæ PIERWSZY
+        if (enemyAudio != null)
+        {
+            enemyAudio.PlayDeathSound();
+        }
+
         OnDeath?.Invoke();
-        
-        // Simple death handling: Destroy object
-        // ideally we might play an animation or spawn a corpse
-        Destroy(gameObject);
+
+        // 2. Zamiast natychmiastowego Destroy(gameObject), dajemy mu 0.1s zw³oki
+        // To wystarczy, by FMOD odebra³ sygna³ PlayOneShot
+        Destroy(gameObject, 0.1f);
+
+        // Opcjonalnie: wy³¹czamy grafiki, ¿eby nie by³o widaæ "¿ywego" trupa przez te 0.1s
+        var renderer = GetComponentInChildren<Renderer>();
+        if (renderer != null) renderer.enabled = false;
     }
 
     private System.Collections.IEnumerator FlashColor()
