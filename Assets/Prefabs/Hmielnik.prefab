@@ -772,6 +772,7 @@ GameObject:
   - component: {fileID: 7326883953662667331}
   - component: {fileID: 1929061987686887047}
   - component: {fileID: 7307877119450744128}
+  - component: {fileID: 6732533619830834985}
   m_Layer: 0
   m_Name: Hmielnik
   m_TagString: Untagged
@@ -885,6 +886,50 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.25, y: 2.36, z: 0.2}
   m_Center: {x: 0, y: 0.21, z: 0}
+--- !u!114 &6732533619830834985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8151939321494565537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c9ceb4cac05c5b41bc860c50aa38ba5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAudioController
+  idleSoundEvent:
+    Guid:
+      Data1: -1643602333
+      Data2: 1265459542
+      Data3: 1537215116
+      Data4: 443660003
+    Path: event:/Hmielnik_sfx/Hmielnik_Sound
+  footstepEvent:
+    Guid:
+      Data1: 18072606
+      Data2: 1336284849
+      Data3: 480303502
+      Data4: -1311506068
+    Path: event:/Hmielnik_sfx/Hmielnik_Footsteps
+  deathEvent:
+    Guid:
+      Data1: 1259170093
+      Data2: 1090274933
+      Data3: 1263997571
+      Data4: 1881731414
+    Path: event:/Hmielnik_sfx/Hmielnik_Death
+  hitEvent:
+    Guid:
+      Data1: -926451640
+      Data2: 1211966905
+      Data3: -2000348754
+      Data4: -1475974096
+    Path: event:/Hmielnik_sfx/Hmielnik_Damage
+  minWaitTime: 0
+  maxWaitTime: 5
+  stepDistance: 2
+  minMoveSpeed: 0.1
 --- !u!1 &8165698355823749723
 GameObject:
   m_ObjectHideFlags: 0

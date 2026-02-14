@@ -42,10 +42,10 @@ MonoBehaviour:
   Path: Assets/Audio/Metro/Build/Desktop/Metro.bank
   Name: Metro
   StudioPath: bank:/Metro
-  lastModified: 639066140240276739
+  lastModified: 639066541722703750
   FileSizes:
   - Name: Desktop
-    Value: 866592
+    Value: 1100864
   Exists: 1
 --- !u!114 &-6312516934453075102
 MonoBehaviour:
@@ -98,6 +98,33 @@ MonoBehaviour:
   IsGlobal: 1
   Labels: []
   Exists: 1
+--- !u!114 &-5923067660903887510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Character_sfx/Footsteps
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Character_sfx/Footsteps
+  Guid:
+    Data1: -1562987046
+    Data2: 1182493618
+    Data3: 51735985
+    Data4: -734153181
+  Banks:
+  - {fileID: -7109948713492473829}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 550
 --- !u!114 &-4944223875001533550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,10 +140,10 @@ MonoBehaviour:
   Path: Assets/Audio/Metro/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639066140239902947
+  lastModified: 639066541718419978
   FileSizes:
   - Name: Desktop
-    Value: 1226
+    Value: 1608
   Exists: 1
 --- !u!114 &-4841032132357121362
 MonoBehaviour:
@@ -197,6 +224,33 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 0
+--- !u!114 &-3268854063133260374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Hmielnik_sfx/Hmielnik_Attack
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Hmielnik_sfx/Hmielnik_Attack
+  Guid:
+    Data1: -1706590049
+    Data2: 1187044963
+    Data3: 679172787
+    Data4: 1401752606
+  Banks:
+  - {fileID: -7109948713492473829}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1600
 --- !u!114 &-606368356542187092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,11 +266,38 @@ MonoBehaviour:
   Path: Assets/Audio/Metro/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639066140239798060
+  lastModified: 639066541718409977
   FileSizes:
   - Name: Desktop
     Value: 1730
   Exists: 1
+--- !u!114 &-507343562304139363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Hmielnik_sfx/Hmielnik_Damage
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Hmielnik_sfx/Hmielnik_Damage
+  Guid:
+    Data1: -926451640
+    Data2: 1211966905
+    Data3: -2000348754
+    Data4: -1475974096
+  Banks:
+  - {fileID: -7109948713492473829}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 672
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,6 +322,13 @@ MonoBehaviour:
   - {fileID: -6312516934453075102}
   - {fileID: 6054699992871539240}
   - {fileID: 4365536763159684580}
+  - {fileID: 6807435735882082141}
+  - {fileID: 5014633753499903895}
+  - {fileID: -507343562304139363}
+  - {fileID: 2570811886269293806}
+  - {fileID: 2983658016489737079}
+  - {fileID: -3268854063133260374}
+  - {fileID: -5923067660903887510}
   EditorParameters:
   - {fileID: -4841032132357121362}
   MasterBanks:
@@ -248,7 +336,7 @@ MonoBehaviour:
   StringsBanks:
   - {fileID: -4944223875001533550}
   cacheVersion: 131857
-  cacheTime: 639066140240276739
+  cacheTime: 639066541722703750
   SerializableEventsDict:
   - key: event:/Ambience/Amb1
     index: 0
@@ -264,6 +352,75 @@ MonoBehaviour:
     index: 5
   - key: event:/Sfx/Fist_Swing
     index: 6
+  - key: event:/Hmielnik_sfx/Hmielnik_Footsteps
+    index: 7
+  - key: event:/Hmielnik_sfx/Hmielnik_Death
+    index: 8
+  - key: event:/Hmielnik_sfx/Hmielnik_Damage
+    index: 9
+  - key: event:/Character_sfx/Player_Jump_Action
+    index: 10
+  - key: event:/Hmielnik_sfx/Hmielnik_Sound
+    index: 11
+  - key: event:/Hmielnik_sfx/Hmielnik_Attack
+    index: 12
+  - key: event:/Character_sfx/Footsteps
+    index: 13
+--- !u!114 &2570811886269293806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Character_sfx/Player_Jump_Action
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Character_sfx/Player_Jump_Action
+  Guid:
+    Data1: 1714090073
+    Data2: 1321407901
+    Data3: 707690147
+    Data4: -376597153
+  Banks:
+  - {fileID: -7109948713492473829}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 0
+  Parameters:
+  - {fileID: 4283869075324513374}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1276
+--- !u!114 &2983658016489737079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Hmielnik_sfx/Hmielnik_Sound
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Hmielnik_sfx/Hmielnik_Sound
+  Guid:
+    Data1: -1643602333
+    Data2: 1265459542
+    Data3: 1537215116
+    Data4: 443660003
+  Banks:
+  - {fileID: -7109948713492473829}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 3500
 --- !u!114 &3407127064564013241
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -291,6 +448,30 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 85
+--- !u!114 &4283869075324513374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Player_Jump_Action/InAir
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorParamRef
+  Name: InAir
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 671074365
+    data2: 3150658451
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &4365536763159684580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -318,6 +499,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 400
+--- !u!114 &5014633753499903895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Hmielnik_sfx/Hmielnik_Death
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Hmielnik_sfx/Hmielnik_Death
+  Guid:
+    Data1: 1259170093
+    Data2: 1090274933
+    Data3: 1263997571
+    Data4: 1881731414
+  Banks:
+  - {fileID: -7109948713492473829}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1178
 --- !u!114 &6054699992871539240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -374,3 +582,30 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 59600
+--- !u!114 &6807435735882082141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Hmielnik_sfx/Hmielnik_Footsteps
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Hmielnik_sfx/Hmielnik_Footsteps
+  Guid:
+    Data1: 18072606
+    Data2: 1336284849
+    Data3: 480303502
+    Data4: -1311506068
+  Banks:
+  - {fileID: -7109948713492473829}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 550

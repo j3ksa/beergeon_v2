@@ -651,9 +651,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8758414081199991255}
-        m_TargetAssemblyTypeName: SettingsMenu, Assembly-CSharp
-        m_MethodName: ResetSensitivity
+      - m_Target: {fileID: 3829554738718102512}
+        m_TargetAssemblyTypeName: Sensitivity, Assembly-CSharp
+        m_MethodName: ResetToDefault
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -994,7 +994,7 @@ RectTransform:
   m_Father: {fileID: 3942704877277750510}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.02, y: 1}
   m_AnchoredPosition: {x: -2.5, y: 0}
   m_SizeDelta: {x: 5, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1646,7 +1646,7 @@ RectTransform:
   m_Father: {fileID: 3966329699425444529}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0.625}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1851,9 +1851,9 @@ RectTransform:
   m_Father: {fileID: 3526887210121834955}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -17, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &1330292546685235871
 CanvasRenderer:
@@ -1978,8 +1978,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2771656691182634124}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.02, y: 0}
+  m_AnchorMax: {x: 0.02, y: 1}
   m_AnchoredPosition: {x: 0.00012207031, y: 0}
   m_SizeDelta: {x: 42.1428, y: 25.197}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2358,8 +2358,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 99270951037085077}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0.00012207031, y: 0}
   m_SizeDelta: {x: 42.1428, y: 25.197}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2390,7 +2390,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1829486505352244021
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2882,7 +2882,7 @@ RectTransform:
   m_Father: {fileID: 4367329808479114469}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: -2.5, y: 0}
   m_SizeDelta: {x: 5, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -3552,7 +3552,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3315842411055938930
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3848,7 +3848,7 @@ RectTransform:
   m_Father: {fileID: 1480293002549438028}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: -2.5, y: 0}
   m_SizeDelta: {x: 5, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -3945,7 +3945,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MouseSensitivitySlider
   slider: {fileID: 6959569803653586121}
-  valueText: {fileID: 0}
+  valueText: {fileID: 1470138949}
   defaultSensitivity: 50
 --- !u!222 &3834089614937831632
 CanvasRenderer:
@@ -4430,7 +4430,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &4216315355140758907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5593,13 +5593,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8758414081199991255}
-        m_TargetAssemblyTypeName: SettingsMenu, Assembly-CSharp
-        m_MethodName: ResetToDefaults
+      - m_Target: {fileID: 8974554835139878929}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgumentAssemblyTypeName: 
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -6280,8 +6280,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 700263983966089374}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0.00012207031, y: 0}
   m_SizeDelta: {x: 42.1428, y: 25.197}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -6631,7 +6631,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &6401217167385517397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6715,7 +6715,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &6443146061689055374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8964,7 +8964,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &8519431332136746990
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9169,20 +9169,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1af30f5e8db82f74ba75bb27c25e3aef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SettingsMenu
-  resolutionDropdown: {fileID: 4216315355140758907}
-  fullscreenDropdown: {fileID: 7638870891230094019}
-  qualitySlider: {fileID: 0}
-  gammaSlider: {fileID: 4809043443199992028}
-  contrastSlider: {fileID: 6833647604466585405}
-  qualityValueText: {fileID: 0}
-  gammaValueText: {fileID: 1699312482570923036}
-  contrastValueText: {fileID: 4419971374045490509}
-  notificationText: {fileID: 0}
-  globalVolume: {fileID: 0}
-  sensitivitySlider: {fileID: 6959569803653586121}
-  sensitivityValueText: {fileID: 1470138949}
-  volumeSlider: {fileID: 7227709089797501311}
-  volumeValueText: {fileID: 4637325646242761201}
 --- !u!114 &8812595244956040268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9429,7 +9415,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &8974554835139878930
 MonoBehaviour:
   m_ObjectHideFlags: 0

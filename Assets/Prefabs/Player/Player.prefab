@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 6647264478732751504}
   - component: {fileID: 6399661977074990679}
   - component: {fileID: 7503873888961033869}
+  - component: {fileID: 4576969977808837281}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -227,6 +228,36 @@ MonoBehaviour:
   mainCamera: {fileID: 3174864779413090353}
   handCamera: {fileID: 0}
   handObject: {fileID: 8107650024884335959}
+  animatedRotation: {x: 0, y: 0, z: 0, w: 1}
+--- !u!114 &4576969977808837281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1025314153251281891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d17de412ff156f48a13919d37a5f20a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAudioController
+  footstepEvent:
+    Guid:
+      Data1: -1562987046
+      Data2: 1182493618
+      Data3: 51735985
+      Data4: -734153181
+    Path: event:/Character_sfx/Footsteps
+  jumpLandEvent:
+    Guid:
+      Data1: 1714090073
+      Data2: 1321407901
+      Data3: 707690147
+      Data4: -376597153
+    Path: event:/Character_sfx/Player_Jump_Action
+  controller: {fileID: 0}
+  stepDistance: 2.5
+  minVelocity: 0.5
 --- !u!1 &3316239086682728661
 GameObject:
   m_ObjectHideFlags: 0
