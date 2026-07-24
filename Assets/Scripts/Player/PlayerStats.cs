@@ -16,6 +16,36 @@ public class PlayerStats : MonoBehaviour
     public UnityEvent OnLevelUp;
     public UnityEvent OnStatsChanged;
 
+    private static int savedStrength = 10;
+    private static int savedVitality = 10;
+    private static int savedExperience = 0;
+    private static int savedLevel = 1;
+    private static bool isInitialized = false;
+
+    public static void ResetStats()
+    {
+        isInitialized = false;
+    }
+
+    private void Awake()
+    {
+        if (!isInitialized)
+        {
+            savedStrength = strength;
+            savedVitality = vitality;
+            savedExperience = experience;
+            savedLevel = level;
+            isInitialized = true;
+        }
+        else
+        {
+            strength = savedStrength;
+            vitality = savedVitality;
+            experience = savedExperience;
+            level = savedLevel;
+        }
+    }
+
     public int Strength => strength;
     public int Vitality => vitality;
     public int Experience => experience;
@@ -37,6 +67,8 @@ public class PlayerStats : MonoBehaviour
     {
         experience += amount;
         CheckLevelUp();
+        savedExperience = experience;
+        OnStatsChanged?.Invoke();
     }
 
     private void CheckLevelUp()
@@ -48,6 +80,11 @@ public class PlayerStats : MonoBehaviour
             level++;
             strength += 1; // Stat gain per level
             vitality += 1; // Stat gain per level
+
+            savedLevel = level;
+            savedStrength = strength;
+            savedVitality = vitality;
+
             OnLevelUp?.Invoke();
             OnStatsChanged?.Invoke();
             requiredXp = GetXpForNextLevel();
