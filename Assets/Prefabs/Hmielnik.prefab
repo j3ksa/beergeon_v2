@@ -773,6 +773,7 @@ GameObject:
   - component: {fileID: 1929061987686887047}
   - component: {fileID: 7307877119450744128}
   - component: {fileID: 6732533619830834985}
+  - component: {fileID: 6381913800543330465}
   m_Layer: 0
   m_Name: Hmielnik
   m_TagString: Untagged
@@ -930,6 +931,23 @@ MonoBehaviour:
   maxWaitTime: 5
   stepDistance: 2
   minMoveSpeed: 0.1
+--- !u!114 &6381913800543330465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8151939321494565537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e9294fae82f7ec4c9baeb8d183b364a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyExpDropper
+  xpPrefab: {fileID: 983233752295676533, guid: d1f184a3569354c45b50b3b588f49a7c, type: 3}
+  totalXpAmount: 25
+  minPrefabsToSpawn: 1
+  maxPrefabsToSpawn: 3
+  spawnSpread: 0.5
 --- !u!1 &8165698355823749723
 GameObject:
   m_ObjectHideFlags: 0

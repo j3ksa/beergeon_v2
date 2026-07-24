@@ -42,7 +42,7 @@ MonoBehaviour:
   Path: Assets/Audio/Metro/Build/Desktop/Metro.bank
   Name: Metro
   StudioPath: bank:/Metro
-  lastModified: 639066541722703750
+  lastModified: 639198498386276497
   FileSizes:
   - Name: Desktop
     Value: 1100864
@@ -140,7 +140,7 @@ MonoBehaviour:
   Path: Assets/Audio/Metro/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639066541718419978
+  lastModified: 639198498386246485
   FileSizes:
   - Name: Desktop
     Value: 1608
@@ -266,7 +266,7 @@ MonoBehaviour:
   Path: Assets/Audio/Metro/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639066541718409977
+  lastModified: 639198498386236486
   FileSizes:
   - Name: Desktop
     Value: 1730
@@ -336,7 +336,7 @@ MonoBehaviour:
   StringsBanks:
   - {fileID: -4944223875001533550}
   cacheVersion: 131857
-  cacheTime: 639066541722703750
+  cacheTime: 639198498386276497
   SerializableEventsDict:
   - key: event:/Ambience/Amb1
     index: 0
