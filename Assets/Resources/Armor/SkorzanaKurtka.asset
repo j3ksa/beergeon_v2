@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb8da6cfd21a25348b482f292cbc93c7, type: 3}
+  m_Name: SkorzanaKurtka
+  m_EditorClassIdentifier: Assembly-CSharp::Praktyki.Zbroja.ArmorItem
+  itemName: "Sk\u00F3rzana Kurtka"
+  icon: {fileID: 21300000, guid: a1111111222233334444555566667702, type: 3}
+  pickupPrefab: {fileID: 4102785500099672838, guid: b1111111222233334444555566667702, type: 3}
+  description: "Wygodna sk\u00F3rzana kurtka podr\u00F3\u017Cna.\n+ 2 Obrony | + 10 Max HP\n- 1% Pr\u0119dko\u015Bci | + 2% Zu\u017Cycia staminy"
+  isStackable: 0
+  maxStack: 1
+  heldSprite: {fileID: 0}
+  cooldown: 0.5
+  useItemRotation: 0
+  rotationEuler: {x: 0, y: 0, z: -45}
+  rotationSpeed: 10
+  returnRotationSpeedMultiplier: 1
+  handPositionOffset: {x: 0, y: 0, z: 0}
+  handScaleMultiplier: 1
+  slotType: 1
+  defense: 2
+  bonusHealth: 10
+  speedBonus: -0.01
+  staminaDrainPenalty: 0.02

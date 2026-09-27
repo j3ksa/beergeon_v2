@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47695386c3824e84ad0bf85091ba1b2a, type: 3}
+  m_Name: MlekoStarego
+  m_EditorClassIdentifier: Assembly-CSharp::Praktyki.MlekoStarego.MlekoStaregoItem
+  itemName: Mleko Starego
+  icon: {fileID: 21300000, guid: 523bea27660bd7444af2799d2cb437c0, type: 3}
+  pickupPrefab: {fileID: 6618673956240924928, guid: 184b46b75b81422d9c89fa8c0aad061c, type: 3}
+  description: Mleko Starego. Natychmiast niweluje trucizne oraz chroni przed nia przez 10 sekund!
+  heldSprite: {fileID: 21300000, guid: 523bea27660bd7444af2799d2cb437c0, type: 3}
+  cooldown: 0.5
+  useItemRotation: 1
+  rotationEuler: {x: 0, y: 0, z: -45}
+  rotationSpeed: 10
+  immunityDuration: 10
+  cleanseSlow: 1
+  drinkSound: {fileID: 0}
+  drinkEffectPrefab: {fileID: 0}

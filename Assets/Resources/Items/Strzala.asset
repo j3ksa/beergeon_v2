@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a739d482910c4d29a1bb430129e928a1, type: 3}
+  m_Name: Strzala
+  m_EditorClassIdentifier: Praktyki.Kusza::ArrowItem
+  itemName: Strzala
+  icon: {fileID: 21300000, guid: 1668f12facc386d4b91102ebfe5c0b4d, type: 3}
+  pickupPrefab: {fileID: 4102785500099672838, guid: 7139d482910c4d29a1bb430129e92871, type: 3}
+  description: "Ostra strza\u0142a do kuszy. Mo\u017Cna j\u0105 za\u0142adowa\u0107 klikaj\u0105c PPM z kusz\u0105 w d\u0142oni."
+  isStackable: 1
+  maxStack: 64
+  bonusDamage: 0

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2741113286158126602}
   - component: {fileID: 1882977459512024710}
   - component: {fileID: 1663900538337423119}
+  - component: {fileID: 1720574315888746606}
   m_Layer: 0
   m_Name: XP_Orb
   m_TagString: Untagged
@@ -28,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.49766, y: -12.633, z: -67.4864}
-  m_LocalScale: {x: 0.07193, y: 0.07193, z: 0.07193}
+  m_LocalScale: {x: 0.024882745, y: 0.024882745, z: 0.024882745}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5271976214865189586}
@@ -71,6 +72,18 @@ MonoBehaviour:
   magnetRadius: 5
   speed: 2
   acceleration: 8
+--- !u!114 &1720574315888746606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 983233752295676533}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57ec8edf86f732e4a82109c84b98eb09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Billboard
 --- !u!1 &5109389480376580316
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,7 +5,12 @@ public class EnemyExpDropper : MonoBehaviour
 {
     [Header("XP Drop Settings")]
     [SerializeField] private GameObject xpPrefab;
-    [SerializeField] private int totalXpAmount = 25;
+    [Tooltip("Czy ilość dropionego XP ma być losowana z zakresu min/max?")]
+    [SerializeField] private bool useRandomXpRange = true;
+    [SerializeField] private int minTotalXp = 10;
+    [SerializeField] private int maxTotalXp = 20;
+    [Tooltip("Wartość domyślna lub używana gdy useRandomXpRange = false")]
+    [SerializeField] private int totalXpAmount = 15;
     [SerializeField] private int minPrefabsToSpawn = 1;
     [SerializeField] private int maxPrefabsToSpawn = 3;
     [SerializeField] private float spawnSpread = 0.5f;
@@ -37,12 +42,18 @@ public class EnemyExpDropper : MonoBehaviour
             return;
         }
 
+        int actualTotalXp = useRandomXpRange 
+            ? Random.Range(minTotalXp, maxTotalXp + 1) 
+            : totalXpAmount;
+
+        if (actualTotalXp <= 0) return;
+
         int spawnCount = Random.Range(minPrefabsToSpawn, maxPrefabsToSpawn + 1);
         if (spawnCount <= 0) return;
 
         // Distribute the total XP amount among the spawned items
-        int xpPerItem = totalXpAmount / spawnCount;
-        int remainingXp = totalXpAmount % spawnCount;
+        int xpPerItem = actualTotalXp / spawnCount;
+        int remainingXp = actualTotalXp % spawnCount;
 
         for (int i = 0; i < spawnCount; i++)
         {

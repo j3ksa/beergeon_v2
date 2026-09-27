@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97ec5ecd01f64ba8953263c6dc9e4e12, type: 3}
+  m_Name: Wlocznia
+  m_EditorClassIdentifier: Assembly-CSharp::Praktyki.Wlocznia.WloczniaItem
+  itemName: "W\u0142\xF3cznia"
+  icon: {fileID: 21300000, guid: 5b305055cb4ac9e48afa5efe72731aa8, type: 3}
+  pickupPrefab: {fileID: 4102785500099672838, guid: 0a50389e031997d4daf8e805f1f298e3, type: 3}
+  description: "D\u0142uga bro\u0144 drzewcowa. Przeszywa wrog\xF3w w linii. Posiada Stref\u0119 Precyzji: uderzenie samym ostrzem (3.2m - 4.8m) zadaje +25% obra\u017Ce\u0144, ale trafienie blisko trzonkiem tylko 50%. PPM aktywuje szar\u017C\u0119 (ponowny PPM anuluje, uderzenie w \u015Bcian\u0119 rani i zbija stamin\u0119). Spowalnia ruch o 12%."
+  heldSprite: {fileID: 21300000, guid: 5b305055cb4ac9e48afa5efe72731aa8, type: 3}
+  cooldown: 0.55
+  useItemRotation: 1
+  rotationEuler: {x: 20, y: -25, z: -10}
+  rotationSpeed: 8
+  returnRotationSpeedMultiplier: 1.2
+  handPositionOffset: {x: 0.06, y: -0.05, z: 0.25}
+  handScaleMultiplier: 1.15
+  damage: 22
+  range: 3.2
+  attackSprite: {fileID: 0}
+  spearMaxRange: 3.2
+  sweetSpotMinDistance: 2.2
+  closeRangeMultiplier: 0.5
+  sweetSpotMultiplier: 1.25
+  chargeSpeed: 9.5
+  maxChargeDuration: 3.5
+  chargeInitialStaminaCost: 6
+  chargeDrainPerSecond: 10
+  firstHitDamageMultiplier: 1.6
+  secondHitDamageMultiplier: 0.8
+  chargeKnockbackForce: 10
+  pinnedEnemyWallSlamMultiplier: 2
+  wallCrashSelfDamage: 5
+  wallCrashStaminaLoss: 15
+  equippedSpeedModifier: 0.88
+  critChance: 0.08
+  critMultiplier: 1.6
+  thrustVector: {x: 0, y: 0.08, z: 0.22}
+  thrustSpeed: 12

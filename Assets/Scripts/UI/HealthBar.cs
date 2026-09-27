@@ -6,8 +6,20 @@ public class HealthBar : MonoBehaviour
     [SerializeField] private Slider healthSlider;
     [SerializeField] private PlayerHealth playerHealth;
 
+    [Header("Kolor Zatrucia")]
+    [Tooltip("Kolor paska życia podczas zatrucia")]
+    [SerializeField] private Color poisonColor = new Color(0.2f, 0.85f, 0.25f, 1f);
+
+    private static HealthBar instance;
+    public static HealthBar Instance => instance;
+
+    private Image fillImage;
+    private Color originalFillColor = Color.white;
+    private bool hasCachedColor = false;
+
     private void OnEnable()
     {
+        instance = this;
         if (playerHealth != null)
         {
             playerHealth.OnHealthChanged.AddListener(UpdateHealthBar);
@@ -24,6 +36,7 @@ public class HealthBar : MonoBehaviour
 
     private void Awake()
     {
+        instance = this;
         if (healthSlider == null)
         {
             healthSlider = GetComponent<Slider>();
@@ -31,14 +44,44 @@ public class HealthBar : MonoBehaviour
 
         if (healthSlider != null)
         {
-            
             healthSlider.minValue = 0f;
             healthSlider.maxValue = 1f;
-            
+            CacheFillImage();
         }
-        else
+    }
+
+    private void CacheFillImage()
+    {
+        if (hasCachedColor) return;
+        if (healthSlider != null && healthSlider.fillRect != null)
         {
-            
+            fillImage = healthSlider.fillRect.GetComponent<Image>();
+            if (fillImage != null)
+            {
+                originalFillColor = fillImage.color;
+                hasCachedColor = true;
+            }
+        }
+    }
+
+    public void SetPoisonedVisual(bool isPoisoned)
+    {
+        CacheFillImage();
+        if (fillImage != null)
+        {
+            fillImage.color = isPoisoned ? poisonColor : originalFillColor;
+        }
+    }
+
+    public static void SetPoisonState(bool isPoisoned)
+    {
+        if (instance == null)
+        {
+            instance = UnityEngine.Object.FindFirstObjectByType<HealthBar>();
+        }
+        if (instance != null)
+        {
+            instance.SetPoisonedVisual(isPoisoned);
         }
     }
 

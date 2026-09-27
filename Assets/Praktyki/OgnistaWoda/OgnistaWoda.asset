@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c91a2b30d855e9fb0c4e129f658ab02, type: 3}
+  m_Name: OgnistaWoda
+  m_EditorClassIdentifier: Assembly-CSharp::Praktyki.OgnistaWoda.OgnistaWodaItem
+  itemName: Ognista Woda
+  icon: {fileID: 21300000, guid: 10d6920eaaf8b27428f085e156264440, type: 3}
+  pickupPrefab: {fileID: 6618673956240924928, guid: 80d5e6f741c992d3f4082563da9cef06, type: 3}
+  description: Ognista Woda. Redukuje otrzymywane obrazenia o 25% na 10 sekund!
+  heldSprite: {fileID: 21300000, guid: 10d6920eaaf8b27428f085e156264440, type: 3}
+  cooldown: 0.5
+  useItemRotation: 1
+  rotationEuler: {x: 0, y: 0, z: -45}
+  rotationSpeed: 10
+  damageReductionPercent: 0.25
+  duration: 10
+  drinkSound: {fileID: 0}
+  drinkEffectPrefab: {fileID: 0}

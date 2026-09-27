@@ -21,6 +21,33 @@ public class EnemyController : MonoBehaviour
     private Vector3 velocity;
     private bool isAttacking = false;
 
+    // Mechanika Odrzutu i Ogłuszenia
+    private Vector3 knockbackVelocity;
+    private float stunTimer = 0f;
+
+    public bool IsStunned => stunTimer > 0f;
+
+    public void ApplyKnockback(Vector3 direction, float force, float stunDuration = 0f)
+    {
+        direction.y = 0;
+        if (direction.sqrMagnitude > 0.001f)
+        {
+            knockbackVelocity = direction.normalized * force;
+        }
+        if (stunDuration > stunTimer)
+        {
+            stunTimer = stunDuration;
+        }
+    }
+
+    public void ApplyStun(float duration)
+    {
+        if (duration > stunTimer)
+        {
+            stunTimer = duration;
+        }
+    }
+
     private void Awake()
     {
         characterController = GetComponent<CharacterController>();
@@ -56,9 +83,16 @@ public class EnemyController : MonoBehaviour
         }
         velocity.y += gravity * Time.deltaTime;
 
+        // Obsługa timera ogłuszenia
+        if (stunTimer > 0f)
+        {
+            stunTimer -= Time.deltaTime;
+        }
+
         Vector3 moveDirection = Vector3.zero;
 
-        if (distanceToTarget <= detectionRange && !isAttacking)
+        // Jeśli przeciwnik jest ogłuszony, nie porusza się w stronę gracza ani nie atakuje
+        if (stunTimer <= 0f && distanceToTarget <= detectionRange && !isAttacking)
         {
             if (distanceToTarget > attackRange)
             {
@@ -74,8 +108,18 @@ public class EnemyController : MonoBehaviour
             }
         }
 
+        // Płynne tłumienie siły odrzutu (knockback)
+        if (knockbackVelocity.sqrMagnitude > 0.01f)
+        {
+            knockbackVelocity = Vector3.Lerp(knockbackVelocity, Vector3.zero, 8f * Time.deltaTime);
+        }
+        else
+        {
+            knockbackVelocity = Vector3.zero;
+        }
+
         // Apply movement
-        characterController.Move((moveDirection + Vector3.up * velocity.y) * Time.deltaTime);
+        characterController.Move((moveDirection + knockbackVelocity + Vector3.up * velocity.y) * Time.deltaTime);
 
         // Animation Logic
         HandleAnimations(moveDirection);

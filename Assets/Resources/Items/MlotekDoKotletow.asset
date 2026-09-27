@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1c2d3e4f5a60718293a4b5c6d7e9001, type: 3}
+  m_Name: MlotekDoKotletow
+  m_EditorClassIdentifier: Assembly-CSharp::Praktyki.MlotekDoKotletow.MlotekDoKotletowItem
+  itemName: "M\u0142otek Do Kotlet\u00F3w"
+  icon: {fileID: 21300000, guid: 1c4ed693ae534ee49bd448cca4cfe02c, type: 3}
+  pickupPrefab: {fileID: 4102785500099672838, guid: 0408c6d9802b9c5428ca14ebdc8d50f9, type: 3}
+  description: "Masywny kuchenny t\u0142uczek do mi\u0119sa. Zadaje 45 pkt obra\u017Ce\u0144 i zu\u017Cywa odrobin\u0119 staminy z 10% szans\u0105 na odrzut. Pot\u0119\u017Cny cios (PPM) wymaga pe\u0142nej staminy, zadaje 60 obra\u017Ce\u0144, odrzuca i og\u0142usza wrog\u00F3w kosztem chwilowego spowolnienia gracza."
+  isStackable: 0
+  maxStack: 1
+  heldSprite: {fileID: 21300000, guid: 1c4ed693ae534ee49bd448cca4cfe02c, type: 3}
+  cooldown: 1
+  useItemRotation: 1
+  rotationEuler: {x: 90, y: -80, z: -40}
+  rotationSpeed: 8
+  returnRotationSpeedMultiplier: 0.45
+  handPositionOffset: {x: -0.05, y: 0.4, z: 0}
+  handScaleMultiplier: 1.15
+  damage: 45
+  range: 3.5
+  attackSprite: {fileID: 0}
+  staminaCostLMB: 7
+  lightKnockbackChance: 0.1
+  lightKnockbackForce: 3.5
+  lightStunDuration: 0.4
+  lowStaminaThreshold: 0.1
+  lowStaminaDamageMultiplier: 0.2
+  heavyDamageBonus: 15
+  heavyCooldown: 2.4
+  minStaminaPercentRMB: 0.9
+  playerSlowMultiplier: 0.5
+  playerSlowDuration: 2.2
+  heavyKnockbackForce: 8.5
+  heavyStunDuration: 1.2
+  heavySwingEuler: {x: 90, y: -80, z: -40}
+  heavySwingSpeed: 3.8

@@ -1,8 +1,23 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI; // Added for Slider
 using System.Linq; // Added for FindSliderByName
+
+public static class UIOverlayManager
+{
+    private static int lastClosedFrame = -1;
+
+    public static void NotifyOverlayClosed()
+    {
+        lastClosedFrame = Time.frameCount;
+    }
+
+    public static bool WasAnyOverlayClosedThisFrame()
+    {
+        return lastClosedFrame == Time.frameCount;
+    }
+}
 
 public class PauseMenu : MonoBehaviour
 {
@@ -14,6 +29,7 @@ public class PauseMenu : MonoBehaviour
     public GameObject pauseMenuUI;      // Główne menu (Play, Settings, Info, Quit)
     public GameObject settingsPanelUI;  // Menu ustawień (Mouse, Audio, Graphics...)
     public GameObject infoPanelUI;      // Menu info (Lore, About Team)
+    public GameObject slotsUI;          // Panel ze slotami (Slots / Save / Load)
 
     [Header("Info Sub-Panels")]
     public GameObject lorePanelUI;      // Panel z historią (Lore)
@@ -37,6 +53,12 @@ public class PauseMenu : MonoBehaviour
         {
             var panel = transform.Find("PausePanel");
             if (panel != null) pauseMenuUI = panel.gameObject;
+        }
+
+        if (slotsUI == null)
+        {
+            var panel = transform.Find("Slots");
+            if (panel != null) slotsUI = panel.gameObject;
         }
 
         CloseAllMenus(); // Na start wszystko wyłączone
@@ -77,8 +99,15 @@ public class PauseMenu : MonoBehaviour
 
     void Update()
     {
-        if (Keyboard.current.escapeKey.wasPressedThisFrame)
+        if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame)
         {
+            // 0. PRIORYTET: Jeśli otwarte jest jakiekolwiek okno aktywności (Sklep, Blackjack, Wytrychy, EQ, Ulepszenia)
+            // lub jeśli w tej klatce zamknięto już panel przez Escape, to zamykamy panel i NIE pauzujemy gry!
+            if (UIOverlayManager.WasAnyOverlayClosedThisFrame() || TryCloseActiveGameplayOverlays())
+            {
+                return;
+            }
+
             // Logika cofania przyciskiem ESCAPE
 
             // 1. Jeśli jesteśmy głęboko w ustawieniach (np. Mysz), wróć do Settings
@@ -96,9 +125,10 @@ public class PauseMenu : MonoBehaviour
                 return;
             }
 
-            // 3. Jeśli jesteśmy w Settings lub Info, wróć do głównej Pauzy
+            // 3. Jeśli jesteśmy w Settings, Info lub Slots, wróć do głównej Pauzy
             if ((settingsPanelUI != null && settingsPanelUI.activeSelf) ||
-                (infoPanelUI != null && infoPanelUI.activeSelf))
+                (infoPanelUI != null && infoPanelUI.activeSelf) ||
+                (slotsUI != null && slotsUI.activeSelf))
             {
                 BackToPauseMenu();
                 return;
@@ -108,6 +138,55 @@ public class PauseMenu : MonoBehaviour
             if (isPaused) Resume();
             else Pause();
         }
+    }
+
+    private bool TryCloseActiveGameplayOverlays()
+    {
+        // 1. Sklep (Shop)
+        if (ShopSystem.ShopManagerUI.Instance != null && ShopSystem.ShopManagerUI.Instance.IsOpen)
+        {
+            ShopSystem.ShopManagerUI.Instance.CloseShop();
+            UIOverlayManager.NotifyOverlayClosed();
+            return true;
+        }
+
+        // 2. BlackJack (Hazardzista)
+        if (BlackJack.BlackJackUI.Instance != null && BlackJack.BlackJackUI.Instance.IsOpen)
+        {
+            BlackJack.BlackJackUI.Instance.CloseGame();
+            UIOverlayManager.NotifyOverlayClosed();
+            return true;
+        }
+
+        // 3. Minigra wytrychów (Lockpicking)
+        if (Praktyki.OtwieranieZamkow.LockpickingMinigameUI.Instance != null && Praktyki.OtwieranieZamkow.LockpickingMinigameUI.Instance.IsActive)
+        {
+            Praktyki.OtwieranieZamkow.LockpickingMinigameUI.Instance.CloseMinigame(false);
+            UIOverlayManager.NotifyOverlayClosed();
+            return true;
+        }
+
+        // 4. Ekwipunek Minecraft (Inventory)
+        if (Praktyki.EQ.MinecraftInventoryUI.IsOpen)
+        {
+            if (Praktyki.EQ.MinecraftInventoryUI.Instance != null)
+            {
+                Praktyki.EQ.MinecraftInventoryUI.Instance.CloseInventory();
+            }
+            UIOverlayManager.NotifyOverlayClosed();
+            return true;
+        }
+
+        // 5. Panel Ulepszeń Statystyk (U)
+        var statsUpgradeUI = FindFirstObjectByType<StatsUpgradeUI>();
+        if (statsUpgradeUI != null && statsUpgradeUI.IsOpen)
+        {
+            statsUpgradeUI.ClosePanel();
+            UIOverlayManager.NotifyOverlayClosed();
+            return true;
+        }
+
+        return false;
     }
 
     // --- GŁÓWNE FUNKCJE STANU GRY ---
@@ -157,6 +236,17 @@ public class PauseMenu : MonoBehaviour
 
 
     // --- NAWIGACJA DO PRZODU ---
+
+    public void OpenSaveMenu()
+    {
+        CloseAllMenus();
+        if (slotsUI != null)
+        {
+            slotsUI.SetActive(true);
+            var anim = slotsUI.GetComponent<settingsAnimation>();
+            if (anim != null) anim.Open();
+        }
+    }
 
     public void OpenSettings()
     {
@@ -226,6 +316,7 @@ public class PauseMenu : MonoBehaviour
         if (pauseMenuUI != null) pauseMenuUI.SetActive(false);
         if (settingsPanelUI != null) settingsPanelUI.SetActive(false);
         if (infoPanelUI != null) infoPanelUI.SetActive(false);
+        if (slotsUI != null) slotsUI.SetActive(false);
 
         // Info sub-panele
         if (lorePanelUI != null) lorePanelUI.SetActive(false);

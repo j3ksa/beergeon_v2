@@ -19,9 +19,12 @@ public class PlayerInteraction : MonoBehaviour
 
     public void PerformInteraction()
     {
+        if (Time.timeScale == 0f) return;
+
         if (playerCamera == null)
         {
-            return;
+            playerCamera = Camera.main;
+            if (playerCamera == null) return;
         }
 
         Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
@@ -39,11 +42,11 @@ public class PlayerInteraction : MonoBehaviour
             else
             {
                 // Check parent
-                 interactable = hit.collider.GetComponentInParent<IInteractable>();
-                 if (interactable != null)
-                 {
-                     interactable.Interact(gameObject);
-                 }
+                interactable = hit.collider.GetComponentInParent<IInteractable>();
+                if (interactable != null)
+                {
+                    interactable.Interact(gameObject);
+                }
             }
         }
     }

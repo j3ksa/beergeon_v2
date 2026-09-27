@@ -39,11 +39,18 @@ public class MenuManager : MonoBehaviour
     public GameObject aboutTeamPanelUI;
     public settingsAnimation teamAnim;
 
+    [Header("Save/Load Panel")]
+    public GameObject saveLoadPanelUI;
+    public settingsAnimation saveLoadAnim;
+
     void Start()
     {
         // --- Auto-Find Panels ---
         if (mainMenuUI == null) mainMenuUI = FindPanel("MainPanel", "MainMenu");
         if (settingsPanelUI == null) settingsPanelUI = FindPanel("SettingsPanel", "SettingsMenu", "Settings"); // Added "Settings"
+
+        // Save/Load System Auto-Find
+        if (saveLoadPanelUI == null) saveLoadPanelUI = FindPanel("Slots", "SaveLoadPanel", "SavePanel", "LoadPanel", "SaveLoad");
 
         // Info System Auto-Find
         if (infoPanelUI == null) infoPanelUI = FindPanel("Info", "InfoPanel");
@@ -59,6 +66,7 @@ public class MenuManager : MonoBehaviour
 
         // --- Auto-Find Animations ---
         if (settingsAnim == null) settingsAnim = GetAnim(settingsPanelUI);
+        if (saveLoadAnim == null) saveLoadAnim = GetAnim(saveLoadPanelUI);
 
         if (infoAnim == null) infoAnim = GetAnim(infoPanelUI);
         if (loreAnim == null) loreAnim = GetAnim(lorePanelUI);
@@ -72,6 +80,7 @@ public class MenuManager : MonoBehaviour
 
         // --- Initial State (Close All) ---
         ClosePanel(settingsPanelUI, settingsAnim);
+        ClosePanel(saveLoadPanelUI, saveLoadAnim);
 
         ClosePanel(infoPanelUI, infoAnim);
         ClosePanel(lorePanelUI, loreAnim);
@@ -120,6 +129,12 @@ public class MenuManager : MonoBehaviour
             if (IsPanelOpen(infoPanelUI, infoAnim))
             {
                 OpenMainMenu(); // Closes Info
+                return;
+            }
+
+            if (IsPanelOpen(saveLoadPanelUI, saveLoadAnim))
+            {
+                OpenMainMenu(); // Closes SaveLoad
                 return;
             }
 
@@ -188,17 +203,45 @@ public class MenuManager : MonoBehaviour
 
     public void Play()
     {
+        OpenSaveLoadMenu();
+    }
+
+    public void NewGame()
+    {
         Inventory.ResetGlobal();
         PlayerStats.ResetStats();
         SceneManager.LoadScene("MainLayout");
+    }
+
+    public void OpenSaveLoadMenu()
+    {
+        if (mainMenuUI != null) mainMenuUI.SetActive(true);
+
+        CloseSettingsSystem();
+        CloseInfoSystem();
+
+        if (saveLoadAnim != null && saveLoadAnim.isOpen)
+        {
+            ClosePanelWithAnim(saveLoadAnim);
+        }
+        else
+        {
+            OpenPanelWithAnim(saveLoadPanelUI, saveLoadAnim);
+        }
+    }
+
+    public void CloseSaveLoadMenu()
+    {
+        ClosePanelWithAnim(saveLoadAnim);
     }
 
     public void OpenSettings()
     {
         if (mainMenuUI != null) mainMenuUI.SetActive(true);
 
-        // Close Info System
+        // Close Info & SaveLoad Systems
         CloseInfoSystem();
+        CloseSaveLoadMenu();
 
         // DEEP CLOSE CHECK: If any sub-setting is open, close it and close Settings tree
         if (IsAnySubSettingOpen())
@@ -301,8 +344,9 @@ public class MenuManager : MonoBehaviour
     {
         if (mainMenuUI != null) mainMenuUI.SetActive(true);
 
-        // Close Settings System
+        // Close Settings & SaveLoad Systems
         CloseSettingsSystem();
+        CloseSaveLoadMenu();
 
         // Check if ANY Info part is open -> Close All (Toggle behavior)
         if (IsPanelOpen(infoPanelUI, infoAnim) || IsPanelOpen(lorePanelUI, loreAnim) || IsPanelOpen(aboutTeamPanelUI, teamAnim))
@@ -347,6 +391,7 @@ public class MenuManager : MonoBehaviour
         // Closes everything
         CloseSettingsSystem();
         CloseInfoSystem();
+        CloseSaveLoadMenu();
 
         if (mainMenuUI != null) mainMenuUI.SetActive(true);
     }

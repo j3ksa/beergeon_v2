@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70bc6daae6664d10a761f4eb712b74b1, type: 3}
+  m_Name: ByczePaliwo
+  m_EditorClassIdentifier: Assembly-CSharp::Praktyki.ByczePaliwo.ByczePaliwoItem
+  itemName: Bycze Paliwo
+  icon: {fileID: 21300000, guid: d21332137ea54f1e9faa9d122c37bba2, type: 3}
+  pickupPrefab: {fileID: 6618673956240924928, guid: 2d94b9778ab90c243892c291dd9e0524, type: 3}
+  description: Energetyk Bycze Paliwo. Natychmiastowo uzupelnia stamine na 100%!
+  heldSprite: {fileID: 21300000, guid: d21332137ea54f1e9faa9d122c37bba2, type: 3}
+  cooldown: 0.5
+  useItemRotation: 1
+  rotationEuler: {x: 0, y: 0, z: -45}
+  rotationSpeed: 10
+  instantFullStamina: 1
+  customStaminaAmount: 30
+  drinkSound: {fileID: 0}
+  drinkEffectPrefab: {fileID: 0}
