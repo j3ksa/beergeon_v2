@@ -48,6 +48,17 @@ namespace Beergeon.Player
         
         // Public property to allow other scripts (like PlayerHand) to apply temporary rotations
         [HideInInspector] public Quaternion animatedRotation = Quaternion.identity;
+        [HideInInspector] public Vector3 animatedPosition = Vector3.zero;
+
+        private void Awake()
+        {
+            if (handObject != null)
+            {
+                initialLocalPosition = handObject.transform.localPosition;
+            }
+        }
+
+        public Vector3 CurrentSpritePositionOffset { get; private set; } = Vector3.zero;
 
         private void Start()
         {
@@ -59,7 +70,10 @@ namespace Beergeon.Player
             if (handObject != null)
             {
                 handRenderer = handObject.GetComponentInChildren<SpriteRenderer>();
-                initialLocalPosition = handObject.transform.localPosition;
+                if (initialLocalPosition == Vector3.zero)
+                {
+                    initialLocalPosition = handObject.transform.localPosition;
+                }
                 UpdateHandVisuals();
             }
         }
@@ -97,15 +111,18 @@ namespace Beergeon.Player
                 }
             }
 
+            CurrentSpritePositionOffset = targetPosOffset;
+
             // Apply rotation
             handObject.transform.localRotation = Quaternion.Euler(targetRotation) * animatedRotation;
             
-            // Apply position (Bobbing in PlayerHand might override this if it modifies localPosition directly, 
-            // but for now we apply the offset relative to the initial position we found).
-            // Be aware: If PlayerHand is bobbing the same transform, there might be conflict.
-            // Assuming PlayerHand bobs the transform THIS script is attached to, or the parent.
-            // If HandRenderingSetup is on the same object as PlayerHand, handObject is likely a child.
-            handObject.transform.localPosition = initialLocalPosition + targetPosOffset;
+            // Apply position only if PlayerHand is not handling it directly
+            PlayerHand playerHand = GetComponentInChildren<PlayerHand>();
+            if (playerHand == null) playerHand = GetComponentInParent<PlayerHand>();
+            if (playerHand == null && handObject != null)
+            {
+                handObject.transform.localPosition = initialLocalPosition + targetPosOffset + animatedPosition;
+            }
 
             // --- 2. Scale ---
             if (targetSpriteHeight <= 0) return;
@@ -117,7 +134,8 @@ namespace Beergeon.Player
             float spriteHeight = handRenderer.sprite.bounds.size.y;
             if (spriteHeight > 0.001f)
             {
-                float newScale = targetSpriteHeight / spriteHeight;
+                float itemScale = (playerHand != null && playerHand.CurrentItem != null) ? playerHand.CurrentItem.handScaleMultiplier : 1.0f;
+                float newScale = (targetSpriteHeight / spriteHeight) * itemScale;
                 // Apply uniform scaling to preserve aspect ratio
                 handObject.transform.localScale = new Vector3(newScale, newScale, newScale);
             }

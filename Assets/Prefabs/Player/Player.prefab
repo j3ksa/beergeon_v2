@@ -18,6 +18,11 @@ GameObject:
   - component: {fileID: 6399661977074990679}
   - component: {fileID: 7503873888961033869}
   - component: {fileID: 4576969977808837281}
+  - component: {fileID: 6563029682659063472}
+  - component: {fileID: 3254773988152205504}
+  - component: {fileID: 5614929802711054772}
+  - component: {fileID: 556730244263925771}
+  - component: {fileID: 999999999999999999}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -258,6 +263,111 @@ MonoBehaviour:
   controller: {fileID: 0}
   stepDistance: 2.5
   minVelocity: 0.5
+--- !u!114 &6563029682659063472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1025314153251281891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33c144eb3663bcb4491cc4f1c2f4f693, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SaveSystem.SaveableEntity
+  saveID: c51e6e92-f184-49bf-af81-1bd412b64c36
+--- !u!114 &3254773988152205504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1025314153251281891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 810cd048097c6184499fa57ea1af02da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SaveSystem.PlayerSaveable
+--- !u!114 &5614929802711054772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1025314153251281891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d9576a1a9acf0d42b39702ed526b189, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CurrencySystem.PlayerCurrency
+  currentCaps: 0
+  OnCapsChanged:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &556730244263925771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1025314153251281891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6526f726f6cee843831fdbf28355770, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStamina
+  maxStamina: 20
+  staminaDrainRate: 10
+  staminaRegenRate: 1
+  regenDelay: 1
+  sprintSpeedMultiplier: 1.3
+  OnStaminaChanged:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &9091934779125801428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1025314153251281891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f77ef264057149428f0d0db94da2bff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStatsUpgrade
+  playerStats: {fileID: 0}
+  playerHealth: {fileID: 0}
+  playerStamina: {fileID: 0}
+  playerController: {fileID: 0}
+  availablePoints: 0
+  basePointsPerLevel: 1
+  scalePointsWithLevel: 1
+  bonusPointInterval: 5
+  upgradeMode: 0
+  healthPercentPerPoint: 5
+  staminaPercentPerPoint: 5
+  staminaRegenPercentPerPoint: 5
+  speedPercentPerPoint: 5
+  strengthPercentPerPoint: 5
+  critChancePerPoint: 2
+  healthUpgrades: 0
+  staminaUpgrades: 0
+  staminaRegenUpgrades: 0
+  speedUpgrades: 0
+  strengthUpgrades: 0
+  critChanceUpgrades: 0
+  maxHealthUpgrades: 20
+  maxStaminaUpgrades: 20
+  maxStaminaRegenUpgrades: 10
+  maxSpeedUpgrades: 10
+  maxStrengthUpgrades: 20
+  maxCritChanceUpgrades: 10
+  enableTestingKeys: 1
+  spawnXpKey: 38
+  OnPointsOrStatsChanged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &3316239086682728661
 GameObject:
   m_ObjectHideFlags: 0
@@ -659,3 +769,19 @@ MonoBehaviour:
   bobAmount: 0.05
   characterController: {fileID: 0}
   attackAction: {fileID: 1120369429361536294, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+--- !u!114 &999999999999999999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1025314153251281891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9939d482910c4d29a1bb430129e92899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Praktyki.Kusza::KuszaTestHelper
+  kuszaItem: {fileID: 11400000, guid: f339d482910c4d29a1bb430129e928f6, type: 3}
+  strzalaItem: {fileID: 11400000, guid: e239d482910c4d29a1bb430129e928e5, type: 3}
+  arrowsToAdd: 10
+

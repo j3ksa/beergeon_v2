@@ -773,6 +773,10 @@ GameObject:
   - component: {fileID: 1929061987686887047}
   - component: {fileID: 7307877119450744128}
   - component: {fileID: 6732533619830834985}
+  - component: {fileID: 6381913800543330465}
+  - component: {fileID: -1785046883153337828}
+  - component: {fileID: -7097741336257060627}
+  - component: {fileID: 7428154130153099823}
   m_Layer: 0
   m_Name: Hmielnik
   m_TagString: Untagged
@@ -864,6 +868,26 @@ MonoBehaviour:
       m_Calls: []
   healthPotionPrefab: {fileID: 1302892995345684908, guid: ff1c8791ed174c847bfb4e4b3a188fbe, type: 3}
   dropChance: 0.3
+  monkeyPotionPrefab: {fileID: 6618673956240924928, guid: c14aa368f58f75043be5b8eae2f0780d, type: 3}
+  monkeyDropChance: 0.15
+  speedPotionPrefab: {fileID: 6618673956240924928, guid: 75207e3254cdce0499d3965b3e52e57d, type: 3}
+  speedPotionDropChance: 0.22
+  bullFuelPotionPrefab: {fileID: 6618673956240924928, guid: 2d94b9778ab90c243892c291dd9e0524, type: 3}
+  bullFuelDropChance: 0.3
+  ognistaWodaPrefab: {fileID: 6618673956240924928, guid: 80d5e6f741c992d3f4082563da9cef06, type: 3}
+  ognistaWodaDropChance: 0.2
+  pitnaWiedzaPrefab: {fileID: 6618673956240924928, guid: e6f789012345678901234567890123e5, type: 3}
+  pitnaWiedzaDropChance: 0.13
+  slepySzalPrefab: {fileID: 6618673956240924928, guid: 60718293a4b5c6d7e8f9011223344556, type: 3}
+  slepySzalDropChance: 0.03
+  swiatloWidzeniaPrefab: {fileID: 6618673956240924928, guid: d4e5f6789012345678901234567890d4, type: 3}
+  swiatloWidzeniaDropChance: 0.02
+  kuszaPrefab: {fileID: 4102785500099672838, guid: 8239d482910c4d29a1bb430129e92882, type: 3}
+  kuszaDropChance: 0.05
+  strzalaPrefab: {fileID: 4102785500099672838, guid: 7139d482910c4d29a1bb430129e92871, type: 3}
+  strzalaDropChance: 0.15
+  zatrutyMieczPrefab: {fileID: 4102785500099672838, guid: a1b2c3d4e5f60718293a4b5c6d7e8004, type: 3}
+  zatrutyMieczDropChance: 0.02
   xpReward: 25
 --- !u!65 &7307877119450744128
 BoxCollider:
@@ -930,6 +954,73 @@ MonoBehaviour:
   maxWaitTime: 5
   stepDistance: 2
   minMoveSpeed: 0.1
+--- !u!114 &6381913800543330465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8151939321494565537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e9294fae82f7ec4c9baeb8d183b364a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyExpDropper
+  xpPrefab: {fileID: 983233752295676533, guid: d1f184a3569354c45b50b3b588f49a7c, type: 3}
+  useRandomXpRange: 1
+  minTotalXp: 8
+  maxTotalXp: 18
+  totalXpAmount: 12
+  minPrefabsToSpawn: 1
+  maxPrefabsToSpawn: 2
+  spawnSpread: 0.5
+--- !u!114 &-1785046883153337828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8151939321494565537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33c144eb3663bcb4491cc4f1c2f4f693, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SaveSystem.SaveableEntity
+  saveID: a15004f7-3855-4bb4-a614-2ef3118ad88a
+--- !u!114 &-7097741336257060627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8151939321494565537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4efe34cde2cd2c4a832307996d77ec8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SaveSystem.EnemySaveable
+  enemyType: DefaultEnemy
+  maxHealth: 100
+--- !u!114 &7428154130153099823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8151939321494565537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d1058c39d2df8042ae006bd793c586b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CurrencySystem.EnemyCapDropper
+  capPrefab: {fileID: 6685881665679602992, guid: 30af99a7db8d1e9458d28d5c6be1f79c, type: 3}
+  useRandomCapRange: 1
+  minTotalCaps: 2
+  maxTotalCaps: 5
+  totalCapAmount: 4
+  minPrefabsToSpawn: 1
+  maxPrefabsToSpawn: 2
+  spawnSpread: 0.5
 --- !u!1 &8165698355823749723
 GameObject:
   m_ObjectHideFlags: 0

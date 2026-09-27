@@ -15,4 +15,12 @@ public class WeaponItem : EquippableItem
         hand.PerformRaycast();
         Debug.Log($"Used weapon: {itemName}");
     }
+
+    /// <summary>
+    /// Wywoływane po udanym trafieniu celu przyjmującego obrażenia.
+    /// Może zostać nadpisane przez specjalne bronie (np. Zatruty Miecz).
+    /// </summary>
+    public virtual void OnHit(GameObject target, IDamageable damageable, RaycastHit hit)
+    {
+    }
 }

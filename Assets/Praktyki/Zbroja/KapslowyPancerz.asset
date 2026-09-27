@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb8da6cfd21a25348b482f292cbc93c7, type: 3}
+  m_Name: KapslowyPancerz
+  m_EditorClassIdentifier: Assembly-CSharp::Praktyki.Zbroja.ArmorItem
+  itemName: "Kapslowy Pancerz"
+  icon: {fileID: 21300000, guid: f1111111222233334444555566667702, type: 3}
+  pickupPrefab: {fileID: 4102785500099672838, guid: g1111111222233334444555566667702, type: 3}
+  description: "Mityczny pancerz \u0142uskowy ze splecionych kapsli.\n+ 6 Obrony | + 40 Max HP\n+ 2% Pr\u0119dko\u015Bci | - 5% Zu\u017Cycia staminy"
+  isStackable: 0
+  maxStack: 1
+  heldSprite: {fileID: 0}
+  cooldown: 0.5
+  useItemRotation: 0
+  rotationEuler: {x: 0, y: 0, z: -45}
+  rotationSpeed: 10
+  returnRotationSpeedMultiplier: 1
+  handPositionOffset: {x: 0, y: 0, z: 0}
+  handScaleMultiplier: 1
+  slotType: 1
+  defense: 6
+  bonusHealth: 40
+  speedBonus: 0.02
+  staminaDrainPenalty: -0.05

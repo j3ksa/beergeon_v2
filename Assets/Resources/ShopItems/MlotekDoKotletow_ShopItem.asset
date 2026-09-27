@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8f6404adff956c4b9f1213b8ccfcd43, type: 3}
+  m_Name: MlotekDoKotletow_ShopItem
+  m_EditorClassIdentifier: Assembly-CSharp::ShopSystem.ShopItemSO
+  itemData: {fileID: 11400000, guid: b1c2d3e4f5a60718293a4b5c6d7e9003, type: 2}
+  cost: 70
+  amountToGive: 1
+  customDescription: "M\u0142otek Do Kotlet\u00F3w. Zadaje 45 pkt obra\u017Ce\u0144 i zu\u017Cywa stamin\u0119. Silny cios (PPM) zu\u017Cywa stamin\u0119, spowalnia gracza, zadaje 60 dmg, odrzuca i og\u0142usza."

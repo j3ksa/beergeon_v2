@@ -7,4 +7,8 @@ public class Item : ScriptableObject
     public Sprite icon = null;
     public GameObject pickupPrefab;
     [TextArea] public string description = "Item description";
+
+    [Header("Stack Settings")]
+    public bool isStackable = false;
+    public int maxStack = 64;
 }

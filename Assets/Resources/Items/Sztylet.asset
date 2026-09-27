@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40ca3700c62c4376b51e266108faed94, type: 3}
+  m_Name: Sztylet
+  m_EditorClassIdentifier: Assembly-CSharp::Praktyki.Sztylet.SztyletItem
+  itemName: Sztylet
+  icon: {fileID: 21300000, guid: 8fa7b4923e0c4a1bb2893f1d8c11e74a, type: 3}
+  pickupPrefab: {fileID: 4102785500099672838, guid: 6d613678945b057499ebf6456ed1450b, type: 3}
+  description: Zwinny nóż sprężynowy. Zadaje 12 obrażeń, atakuje o 40% szybciej, zwiększa prędkość ruchu o 25% i zużywa staminę o 10% wolniej. Posiada 10% szansy na krytyk (2x dmg) oraz 10% szansy na krwawienie.
+  heldSprite: {fileID: 21300000, guid: 8fa7b4923e0c4a1bb2893f1d8c11e74a, type: 3}
+  cooldown: 0.24
+  useItemRotation: 1
+  rotationEuler: {x: 80, y: -60, z: -35}
+  rotationSpeed: 16
+  returnRotationSpeedMultiplier: 1.4
+  handPositionOffset: {x: 0.04, y: 0.1, z: 0.05}
+  handScaleMultiplier: 0.8
+  damage: 12
+  range: 2.2
+  attackSprite: {fileID: 0}
+  moveSpeedBonus: 0.25
+  staminaDrainMultiplier: 0.9
+  critChance: 0.1
+  critMultiplier: 2
+  bleedChance: 0.05
+  bleedDuration: 3
+  bleedTickInterval: 0.5
+  bleedDamagePerTick: 1
+  comboResetWindow: 1.2
+  maxComboCount: 5

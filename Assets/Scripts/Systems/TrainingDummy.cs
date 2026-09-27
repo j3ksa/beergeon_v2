@@ -8,6 +8,8 @@ public class TrainingDummy : MonoBehaviour, IDamageable
     {
         health -= damage;
         
+        // Wyświetlenie latającej cyferki obrażeń
+        DamageNumbers.DamagePopupManager.Show(transform.position + Vector3.up * 1.5f, damage);
         
         // Simple hit effect
         StartCoroutine(FlashRed());

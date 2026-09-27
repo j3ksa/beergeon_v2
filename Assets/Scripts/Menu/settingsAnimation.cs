@@ -12,10 +12,15 @@ public class settingsAnimation : MonoBehaviour
         if (panelAnimator == null) panelAnimator = GetComponent<Animator>();
     }
 
+    private bool CanAnimate()
+    {
+        return panelAnimator != null && panelAnimator.runtimeAnimatorController != null && panelAnimator.isActiveAndEnabled;
+    }
+
     void OnEnable()
     {
         // Sync animator with current state when enabled
-        if (panelAnimator != null)
+        if (CanAnimate())
         {
             try { panelAnimator.SetBool(boolName, isOpen); }
             catch (System.Exception) { }
@@ -32,7 +37,7 @@ public class settingsAnimation : MonoBehaviour
     public void Open()
     {
         isOpen = true;
-        if (panelAnimator != null)
+        if (CanAnimate())
         {
             try { panelAnimator.SetBool(boolName, true); }
             catch (System.Exception) { Debug.LogWarning($"[settingsAnimation] Animator Parameter '{boolName}' missing! Please add a Bool parameter named '{boolName}' to your Animator."); }
@@ -42,7 +47,7 @@ public class settingsAnimation : MonoBehaviour
     public void Close()
     {
         isOpen = false;
-        if (panelAnimator != null)
+        if (CanAnimate())
         {
             try { panelAnimator.SetBool(boolName, false); }
             catch (System.Exception) { /* Already warned in Open or Start usually */ }

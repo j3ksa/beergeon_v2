@@ -13,6 +13,23 @@ public class CameraController : MonoBehaviour
 
     private float xRotation = 0f;
 
+    // Obsługa blokady pionowej i ociężałego sterowania w szarży
+    private bool lockVerticalLook = false;
+    private float turnSensitivityMultiplier = 1f;
+
+    public void SetChargeLookState(bool isCharging, float turnMultiplier = 0.25f)
+    {
+        lockVerticalLook = isCharging;
+        turnSensitivityMultiplier = isCharging ? Mathf.Clamp01(turnMultiplier) : 1f;
+
+        if (isCharging)
+        {
+            // Płynne wyrównanie kamery do poziomu (zero w pionie)
+            xRotation = 0f;
+            transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+        }
+    }
+
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -40,14 +57,16 @@ public class CameraController : MonoBehaviour
 
         Vector2 mouseDelta = lookAction.action.ReadValue<Vector2>();
 
-        float mouseX = mouseDelta.x * mouseSensitivity * Time.deltaTime;
+        float mouseX = mouseDelta.x * (mouseSensitivity * turnSensitivityMultiplier) * Time.deltaTime;
         float mouseY = mouseDelta.y * mouseSensitivity * Time.deltaTime;
 
-        xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+        if (!lockVerticalLook)
+        {
+            xRotation -= mouseY;
+            xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+            transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        }
 
-        transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-        
         if (playerBody != null)
         {
             playerBody.Rotate(Vector3.up * mouseX);

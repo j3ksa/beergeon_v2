@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8f6404adff956c4b9f1213b8ccfcd43, type: 3}
+  m_Name: KlataZelazna_ShopItem
+  m_EditorClassIdentifier: Assembly-CSharp::ShopSystem.ShopItemSO
+  itemData: {fileID: 11400000, guid: 9a6d3def269c20145b37361056402b7f, type: 2}
+  cost: 50
+  amountToGive: 1
+  customDescription: 'Żelazny Napierśnik chroniący tułów. Zapewnia +5 Obrony i +25 Max HP. Spowalnia o 6% i zwiększa zużycie staminy o 15%.'
